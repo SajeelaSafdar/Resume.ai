@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume.ai - Sign In</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #ffffff;
+            color: #2d3748;
+            padding: 18px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo img {
+            width: 36px;
+            height: 36px;
+        }
+
+        .logo h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2d3748;
+            letter-spacing: -0.5px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 28px;
+            align-items: center;
+        }
+
+        nav ul li a {
+            color: #4a5568;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            font-size: 15px;
+        }
+
+        nav ul li a:hover {
+            color: #38a169;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+            margin-left: 20px;
+        }
+
+        .auth-btn {
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .login-btn {
+            background-color: transparent;
+            color: #38a169;
+            border: 1px solid #e2e8f0;
+        }
+
+        .login-btn:hover {
+            background-color: #f0fff4;
+            border-color: #c6f6d5;
+        }
+
+        .signup-btn {
+            background-color: #38a169;
+            color: white;
+            border: 1px solid #38a169;
+        }
+
+        .signup-btn:hover {
+            background-color: #2f855a;
+            border-color: #2f855a;
+        }
+
+        /* Sign In Section */
+        .signin-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f0fff4, #c6f6d5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 200px);
+            width: 100%;
+        }
+
+        .signin-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            border: 1px solid #edf2f7;
+            margin: 0 auto;
+        }
+
+        .signin-container h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #1a202c;
+            font-weight: 700;
+        }
+
+        .signin-container p {
+            font-size: 16px;
+            color: #4a5568;
+            margin-bottom: 30px;
+        }
+
+        .signin-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            text-align: left;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            color: #2d3748;
+            font-weight: 500;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #2d3748;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #38a169;
+            box-shadow: 0 0 0 3px rgba(56, 161, 105, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #38a169;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            font-size: 14px;
+            color: #4a5568;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: #38a169;
+            color: white;
+            border: none;
+            box-shadow: 0 4px 6px rgba(56, 161, 105, 0.2);
+        }
+
+        .btn-primary:hover {
+            background-color: #2f855a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(56, 161, 105, 0.25);
+        }
+
+        .signup-link {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #4a5568;
+        }
+
+        .signup-link a {
+            color: #38a169;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .signup-link a:hover {
+            color: #2f855a;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1a202c;
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, #38a169, #68d391);
+            bottom: 0;
+            left: 0;
+            border-radius: 2px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 14px;
+        }
+
+        .footer-column ul li a {
+            color: #a0aec0;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 15px;
+        }
+
+        .footer-column ul li a:hover {
+            color: #68d391;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #a0aec0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<!-- Header -->
+<header>
+    <div class="container header-container">
+        <div class="logo">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzM4YTE2OSIgZD0iTTE5LDNIMThWMUgxNlYzSDhWMUg2VjNINUMzLjksMyAzLDMuOSAzLDVWMTlDMywyMC4xLDMuOSwyMSw1LDIxSDE5QzIwLjEsMjEsMjEsMjAuMSwyMSwxOVY1QzIxLDMuOSwyMC4xLDMsMTksM00xOSwxOUg1VjhIMTlWMTlNNywxMEgxMlYxNEg3VjEwTTE0LDEwSDE3VjE0SDE0VjEwTTcsMTZIMTJWMThIN1YxNk0xNCwxNkgxN1YxOEgxNFYxNiIvPjwvc3ZnPg=="
+                 alt="Resume Icon">
+            <h1>Resume.ai</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/templates">Templates</a></li>
+                <li>
+                    <div class="auth-buttons">
+                        <a href="/signin" class="auth-btn signup-btn">Login</a>
+                        <a href="/signup" class="auth-btn login-btn">Sign Up</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<!-- Sign In Section -->
+<section class="signin-section">
+    <div class="signin-container">
+        <h2>Sign In</h2>
+        <!--<p>Access your account to continue building your resume.</p>-->
+        <form action="/signindb" method="post" class="signin-form">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="remember-me" name="remember-me">
+                <label for="remember-me">Remember Me</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Sign In</button>
+        </form>
+        <p style="color: red;">{{ error }}</p>
+        <div class="signup-link">
+            Don't have an account? <a href="/signup">Sign Up</a>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Resume.ai</h3>
+                <p style="color: #a0aec0; line-height: 1.7; margin-top: 15px;">The professional resume builder trusted
+                    by thousands to land their dream jobs.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Product</h3>
+                <ul>
+                    <li><a href="#">Templates</a></li>
+                    <li><a href="#">Examples</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="#">Resume Tips</a></li>
+                    <li><a href="#">Career Advice</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2023 Resume.ai Resume Builder. All rights reserved.
+        </div>
+    </div>
+</footer>
+</body>
+</html>

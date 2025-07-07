@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume.ai - Resume Templates</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #ffffff;
+            color: #2d3748;
+            padding: 18px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo img {
+            width: 36px;
+            height: 36px;
+        }
+
+        .logo h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2d3748;
+            letter-spacing: -0.5px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 28px;
+            align-items: center;
+        }
+
+        nav ul li a {
+            color: #4a5568;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            font-size: 15px;
+        }
+
+        nav ul li a:hover {
+            color: #38a169;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .auth-btn {
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .login-btn {
+            background-color: transparent;
+            color: #38a169;
+            border: 1px solid #e2e8f0;
+        }
+
+        .login-btn:hover {
+            background-color: #f0fff4;
+            border-color: #c6f6d5;
+        }
+
+        .signup-btn {
+            background-color: #38a169;
+            color: white;
+            border: 1px solid #38a169;
+        }
+
+        .signup-btn:hover {
+            background-color: #2f855a;
+            border-color: #2f855a;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #1a202c;
+            margin-bottom: 20px;
+        }
+
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .template-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .template-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .template-card svg {
+            width: 100%;
+            height: 400px;
+            display: block;
+        }
+
+        .select-btn {
+            display: block;
+            width: 80%;
+            margin: 15px auto;
+            padding: 10px;
+            background-color: #38a169;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .select-btn:hover {
+            background-color: #2f855a;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-container">
+        <div class="logo">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzM4YTE2OSIgZD0iTTE5LDNIMThWMUgxNlYzSDhWMUg2VjNINUMzLjksMyAzLDMuOSAzLDVWMTlDMywyMC4xLDMuOSwyMSw1LDIxSDE5QzIwLjEsMjEsMjEsMjAuMSwyMSwxOVY1QzIxLDMuOSwyMC4xLDMsMTksM00xOSwxOUg1VjhIMTlWMTlNNywxMEgxMlYxNEg3VjEwTTE0LDEwSDE3VjE0SDE0VjEwTTcsMTZIMTJWMThIN1YxNk0xNCwxNkgxN1YxOEgxNFYxNiIvPjwvc3ZnPg=="
+                 alt="Resume Icon">
+            <h1>Resume.ai</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/dashboard">Home</a></li>
+                <li><a href="/templates">Templates</a></li>
+                <li>
+                    <div class="auth-buttons">
+                        <a href="/findJob" class="auth-btn login-btn">Find Jobs</a>
+                        <a href="/logout" class="auth-btn signup-btn">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+    <h2>Select a Resume Template</h2>
+    <div class="template-grid">
+        <div class="template-card">
+            <svg viewBox="0 0 800 1100">
+                <foreignObject width="800" height="1100">
+                    <div style="font-family: Arial, sans-serif; line-height: 1.5; max-width: 8.5in; margin: 0 auto; padding: 0.5in; color: #333; font-size: 12px; background: #fff;">
+                        <h1 style="font-size: 24px; margin-bottom: 10px; text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px;">
+                            Hire A. Freshman</h1>
+                        <div style="text-align: center; margin-bottom: 20px; font-size: 14px;">
+                            (208) 885-6121 ● fres0000@vandals.uidaho.edu ● 71011 Elmer Street, Moscow, ID 83843
+                        </div>
+                        <h2 style="font-size: 18px; border-bottom: 1px solid #000; padding-bottom: 3px; margin-bottom: 10px; margin-top: 15px;">
+                            Objective:</h2>
+                        <p>To obtain a position as a/an <span style="font-style: italic;">*(Job Title)*</span> with
+                            <span style="font-style: italic;">*(Organization/Company)*</span></p>
+                        <h2 style="font-size: 18px; border-bottom: 1px solid #000; padding-bottom: 3px; margin-bottom: 10px; margin-top: 15px;">
+                            Education:</h2>
+                        <div style="margin-bottom: 15px;">
+                            <div><span style="font-weight: bold;">Bachelor of Science in General Studies</span></div>
+                            <div>University of Idaho (UI) – <span style="font-style: italic;">Moscow, ID</span></div>
+                            <div>Expected May 20xx</div>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <div><span style="font-weight: bold;">High School Diploma</span></div>
+                            <div>Caldwell High School (CHS) – <span style="font-style: italic;">Caldwell, ID</span>
+                            </div>
+                            <div>June 20xx, GPA: 3.60</div>
+                        </div>
+                        <h2 style="font-size: 18px; border-bottom: 1px solid #000; padding-bottom: 3px; margin-bottom: 10px; margin-top: 15px;">
+                            Projects:</h2>
+                        <div style="margin-bottom: 15px;">
+                            <div><span style="font-weight: bold;">"Looking Toward Our Future" Senior Project</span> |
+                                <span style="font-style: italic;">CHS – Caldwell, ID</span></div>
+                            <ul style="margin-top: 5px; padding-left: 20px;">
+                                <li style="margin-bottom: 5px; font-size: 14px;">Developed and implemented a web-based
+                                    survey to collect educational and post-graduation goals of 250 graduating seniors
+                                </li>
+                                <li style="margin-bottom: 5px; font-size: 14px;">Analyzed data, created graphs with
+                                    Excel, and prepared a final report
+                                </li>
+                                <li style="margin-bottom: 5px; font-size: 14px;">Presented findings at the Hispanic
+                                    Youth Summit
+                                </li>
+                            </ul>
+                        </div>
+                        <h2 style="font-size: 18px; border-bottom: 1px solid #000; padding-bottom: 3px; margin-bottom: 10px; margin-top: 15px;">
+                            Experience:</h2>
+                        <div style="margin-bottom: 15px;">
+                            <div><span style="font-weight: bold;">Crew Member</span> | <span
+                                    style="font-style: italic;">Arby's – Caldwell, ID</span></div>
+                            <ul style="margin-top: 5px; padding-left: 20px;">
+                                <li style="margin-bottom: 5px; font-size: 14px;">Multitasked to provide friendly service
+                                    to customers while handling orders and transactions
+                                </li>
+                                <li style="margin-bottom: 5px; font-size: 14px;">Prepared equipment and inventory to
+                                    ensure efficient daily operation
+                                </li>
+                                <li style="margin-bottom: 5px; font-size: 14px;">Managed and recorded intake of freight
+                                    deliveries
+                                </li>
+                            </ul>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <div><span style="font-weight: bold;">Secretary</span> | <span style="font-style: italic;">Caldwell High School Student Body (CHSB) – Caldwell, ID</span>
+                            </div>
+                            <ul style="margin-top: 5px; padding-left: 20px;">
+                                <li style="margin-bottom: 5px; font-size: 14px;">Recorded minutes at weekly meetings and
+                                    published them on school Facebook page, maintaining a professional communication
+                                    outlet with student body and parents
+                                </li>
+                                <li style="margin-bottom: 5px; font-size: 14px;">Collaborated with fellow CHSB officers
+                                    to organize multiple Fall events, with Homecoming drawing over 700 participants
+                                </li>
+                            </ul>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <div><span style="font-weight: bold;">Busser</span> | <span style="font-style: italic;">Heavenly Breakfast – Meridian, ID</span>
+                            </div>
+                            <ul style="margin-top: 5px; padding-left: 20px;">
+                                <li style="margin-bottom: 5px; font-size: 14px;">Maintained a friendly, welcoming, and
+                                    sanitary dining area for guests
+                                </li>
+                                <li style="margin-bottom: 5px; font-size: 14px;">Communicated with patrons, hosts,
+                                    servers, and managers in a fast-paced environment to ensure smooth overall
+                                    restaurant operations
+                                </li>
+                            </ul>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                            <div style="width: 48%;">
+                                <h2 style="font-size: 18px; border-bottom: 1px solid #000; padding-bottom: 3px; margin-bottom: 10px; margin-top: 15px;">
+                                    Computer Skills & Certifications:</h2>
+                                <div>Computer: Proficient in Microsoft Word, Excel, & PowerPoint</div>
+                            </div>
+                            <div style="width: 48%;">
+                                <h2 style="font-size: 18px; border-bottom: 1px solid #000; padding-bottom: 3px; margin-bottom: 10px; margin-top: 15px;">
+                                    &nbsp;</h2>
+                                <div>Certification: Idaho Food Handler's Permit</div>
+                            </div>
+                        </div>
+                        <h2 style="font-size: 18px; border-bottom: 1px solid #000; padding-bottom: 3px; margin-bottom: 10px; margin-top: 15px;">
+                            Service & Activities:</h2>
+                        <div style="margin-top: 20px;">
+                            <div style="display: flex; margin-bottom: 5px;">
+                                <div style="width: 60%; font-weight: bold;">Hall Representative | Housing & Residence
+                                    Life, UI
+                                </div>
+                                <div style="width: 40%; text-align: right;">Fall 20xx – Present</div>
+                            </div>
+                            <div style="display: flex; margin-bottom: 5px;">
+                                <div style="width: 60%; font-weight: bold;">Team Member | Basketball & Ultimate Frisbee,
+                                    Intramural Sports, UI
+                                </div>
+                                <div style="width: 40%; text-align: right;">Fall 20xx – Present</div>
+                            </div>
+                            <div style="display: flex; margin-bottom: 5px;">
+                                <div style="width: 60%; font-weight: bold;">Team Member | Varsity Basketball, Caldwell
+                                    High School
+                                </div>
+                                <div style="width: 40%; text-align: right;">Fall 20xx – Spring 20xx</div>
+                            </div>
+                            <div style="display: flex; margin-bottom: 5px;">
+                                <div style="width: 60%; font-weight: bold;">Volunteer | Natural Helpers, Caldwell High
+                                    School
+                                </div>
+                                <div style="width: 40%; text-align: right;">Spring 20xx – Fall 20xx</div>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+            </svg>
+            <a href="/freshman" class="select-btn">Select Template</a>
+        </div>
+        <div class="template-card">
+            <svg viewBox="0 0 800 1100">
+                <foreignObject width="800" height="1100">
+                    <div style="max-width: 700px; background: #fff; margin: 0 auto; box-shadow: 1px 1px 2px #DAD7D7; border-radius: 3px; padding: 40px; margin-top: 50px; font-family: 'Lato', sans-serif; font-weight: 400; color: #222; font-size: 12px; line-height: 26px;">
+                        <div style="margin-bottom: 30px;">
+                            <div style="font-size: 40px; text-transform: uppercase; margin-bottom: 5px;">
+                                <span style="font-weight: 700;">John</span>
+                                <span style="font-weight: 300;">Doe</span>
+                            </div>
+                            <div style="margin-bottom: 20px;">
+                                <span style="color: #999; font-weight: 300;">Email: </span>
+                                <span>john.doe@gmail.com</span>
+                                <span style="height: 10px; display: inline-block; border-left: 2px solid #999; margin: 0px 10px;"></span>
+                                <span style="color: #999; font-weight: 300;">Phone: </span>
+                                <span>111-222-3333</span>
+                            </div>
+                            <div>
+                                <span style="font-weight: bold; display: inline-block; margin-right: 10px; text-decoration: underline;">Front-End Developer</span>
+                                <span>I am a front-end developer with more than 3 years of experience writing html, css, and js. I'm motivated, result-focused and seeking a successful team-oriented company with opportunity to grow.</span>
+                            </div>
+                        </div>
+                        <div style="line-height: 20px;">
+                            <div style="margin-bottom: 40px;">
+                                <div style="letter-spacing: 2px; color: #54AFE4; font-weight: bold; margin-bottom: 10px; text-transform: uppercase;">
+                                    Experience
+                                </div>
+                                <div style="margin-bottom: 40px;">
+                                    <div style="vertical-align: top; display: inline-block; width: 60%;">
+                                        <div style="font-weight: bold;">KlowdBox</div>
+                                        <div>San Fr, CA</div>
+                                        <div>Jan 2011 - Feb 2015</div>
+                                    </div>
+                                    <div style="vertical-align: top; display: inline-block; text-align: right; width: 39%;">
+                                        <div style="font-weight: bold;">Fr developer</div>
+                                        <div>did This and that</div>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 40px;">
+                                    <div style="vertical-align: top; display: inline-block; width: 60%;">
+                                        <div style="font-weight: bold;">Akount</div>
+                                        <div>San Monica, CA</div>
+                                        <div>Jan 2011 - Feb 2015</div>
+                                    </div>
+                                    <div style="vertical-align: top; display: inline-block; text-align: right; width: 39%;">
+                                        <div style="font-weight: bold;">Fr developer</div>
+                                        <div>did This and that</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 40px;">
+                                <div style="letter-spacing: 2px; color: #54AFE4; font-weight: bold; margin-bottom: 10px; text-transform: uppercase;">
+                                    Education
+                                </div>
+                                <div style="margin-bottom: 40px;">
+                                    <div style="vertical-align: top; display: inline-block; width: 60%;">
+                                        <div style="font-weight: bold;">Sample Institute of technology</div>
+                                        <div>San Fr, CA</div>
+                                        <div>Jan 2011 - Feb 2015</div>
+                                    </div>
+                                    <div style="vertical-align: top; display: inline-block; text-align: right; width: 39%;">
+                                        <div style="font-weight: bold;">Fr developer</div>
+                                        <div>did This and that</div>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 40px;">
+                                    <div style="vertical-align: top; display: inline-block; width: 60%;">
+                                        <div style="font-weight: bold;">Akount</div>
+                                        <div>San Monica, CA</div>
+                                        <div>Jan 2011 - Feb 2015</div>
+                                    </div>
+                                    <div style="vertical-align: top; display: inline-block; text-align: right; width: 39%;">
+                                        <div style="font-weight: bold;">Fr developer</div>
+                                        <div>did This and that</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 40px;">
+                                <div style="letter-spacing: 2px; color: #54AFE4; font-weight: bold; margin-bottom: 10px; text-transform: uppercase;">
+                                    Projects
+                                </div>
+                                <div style="margin-bottom: 40px;">
+                                    <div style="font-weight: bold;">DSP</div>
+                                    <div>I am a front-end developer with more than 3 years of experience writing html,
+                                        css, and js. I'm motivated, result-focused and seeking a successful
+                                        team-oriented company with opportunity to grow.
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 40px;">
+                                    <div style="font-weight: bold;">DSP</div>
+                                    <div>I am a front-end developer with more than 3 years of experience writing html,
+                                        css, and js. I'm motivated, result-focused and seeking a successful
+                                        team-oriented company with opportunity to grow.
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 40px;">
+                                <div style="letter-spacing: 2px; color: #54AFE4; font-weight: bold; margin-bottom: 10px; text-transform: uppercase;">
+                                    Skills
+                                </div>
+                                <div>
+                                    <div style="margin-bottom: 10px;">
+                                        <div style="vertical-align: top; display: inline-block; width: 60%;">
+                                            <div style="font-weight: bold;">Javascript</div>
+                                        </div>
+                                        <div style="vertical-align: top; display: inline-block; text-align: right; width: 39%;">
+                                            <span style="display: inline-block; width: 20px; height: 20px; background: #79A9CE; border-radius: 20px; margin-right: 3px;"></span>
+                                            <span style="display: inline-block; width: 20px; height: 20px; background: #79A9CE; border-radius: 20px; margin-right: 3px;"></span>
+                                            <span style="display: inline-block; width: 20px; height: 20px; background: #C3DEF3; border-radius: 20px; margin-right: 3px;"></span>
+                                            <span style="display: inline-block; width: 20px; height: 20px; background: #C3DEF3; border-radius: 20px; margin-right: 3px;"></span>
+                                            <span style="display: inline-block; width: 20px; height: 20px; background: #C3DEF3; border-radius: 20px; margin-right: 3px;"></span>
+                                        </div>
+                                    </div>
+                                    <div style="margin-bottom: 10px;">
+                                        <div style="vertical-align: top; display: inline-block; width: 60%;">
+                                            <div style="font-weight: bold;">CSS</div>
+                                        </div>
+                                        <div style="vertical-align: top; display: inline-block; text-align: right; width: 39%;">
+                                            <span style="display: inline-block; width: 20px; height: 20px; background: #79A9CE; border-radius: 20px; margin-right: 3px;"></span>
+                                            <span style="display: inline-block; width: 20px; height: 20px; background: #79A9CE; border-radius: 20px; margin-right: 3px;"></span>
+                                            <span style="display: inline-block; width: 20px; height: 20px; background: #C3DEF3; border-radius: 20px; margin-right: 3px;"></span>
+                                            <span style="display: inline-block; width: 20px; height: 20px; background: #C3DEF3; border-radius: 20px; margin-right: 3px;"></span>
+                                            <span style="display: inline-block; width: 20px; height: 20px; background: #C3DEF3; border-radius: 20px; margin-right: 3px;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 40px;">
+                                <div style="letter-spacing: 2px; color: #54AFE4; font-weight: bold; margin-bottom: 10px; text-transform: uppercase;">
+                                    Interests
+                                </div>
+                                <div>Football, programming.</div>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+            </svg>
+            <a href="/john" class="select-btn">Select Template</a>
+        </div>
+        <div class="template-card">
+            <svg viewBox="0 0 800 1100">
+                <foreignObject width="800" height="1100">
+                    <div style="width: 8.5in; margin: 0 auto; padding: 0.5in; box-sizing: border-box; font-family: Arial, sans-serif; line-height: 1.4; color: #333; font-size: 12px; background: #fff;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 30px;">
+                            <div style="font-size: 24px; font-weight: bold; margin-bottom: 5px;">ACCOUNTANT</div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 32px; font-weight: bold; text-transform: uppercase;">BENTLEY
+                                </div>
+                                <div style="font-size: 32px; font-weight: bold; text-transform: uppercase;">CAMPBELL
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 30px;">
+                            <div style="font-weight: bold; font-size: 18px; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 3px; margin-bottom: 10px;">
+                                CONTACT
+                            </div>
+                            <div style="display: flex; margin-bottom: 5px;">
+                                <div style="font-weight: bold; width: 80px;">EMAIL:</div>
+                                <div>bcampbell@gmail.com</div>
+                            </div>
+                            <div style="display: flex; margin-bottom: 5px;">
+                                <div style="font-weight: bold; width: 80px;">ADDRESS:</div>
+                                <div>12 Main Street, Washington DC 20225</div>
+                            </div>
+                            <div style="display: flex; margin-bottom: 5px;">
+                                <div style="font-weight: bold; width: 80px;">PHONE:</div>
+                                <div>(212) 555-1212</div>
+                            </div>
+                            <div style="display: flex; margin-bottom: 5px;">
+                                <div style="font-weight: bold; width: 80px;">DOB:</div>
+                                <div>Jun 23 1985</div>
+                            </div>
+                            <div style="display: flex; margin-bottom: 5px;">
+                                <div style="font-weight: bold; width: 80px;">NATIONALITY:</div>
+                                <div>American</div>
+                            </div>
+                            <div style="display: flex; margin-bottom: 5px;">
+                                <div style="font-weight: bold; width: 80px;">WEBSITE:</div>
+                                <div>www.bcampbell.com</div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <div style="font-weight: bold; font-size: 18px; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 3px; margin-bottom: 10px;">
+                                OBJECTIVE
+                            </div>
+                            <p style="font-size: 14px; line-height: 1.5;">
+                                Certified public accountant with 6+ years of experience. Adapts seamlessly to constantly
+                                evolving accounting processes and new technologies. Detail-oriented, efficient and
+                                organized, with extensive experience in accounting systems. Specialized in financial
+                                planning and reporting.
+                            </p>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <div style="width: 48%;">
+                                <div style="margin-bottom: 20px;">
+                                    <div style="font-weight: bold; font-size: 18px; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 3px; margin-bottom: 10px;">
+                                        EXPERIENCE
+                                    </div>
+                                    <div style="margin-bottom: 15px;">
+                                        <div style="font-weight: bold; margin-bottom: 3px;">ACCOUNTING DIRECTOR</div>
+                                        <div style="font-style: italic; margin-bottom: 3px;">Apex Corporation,
+                                            Washington DC, Feb 2018-Present
+                                        </div>
+                                        <div style="font-size: 14px; margin-left: 20px;">
+                                            <div>- Reported to and collaborated with the Chief Financial Officer (CFO)
+                                                to evaluate and evolve organization's best practices.
+                                            </div>
+                                            <div>- Overseeing the accounting team and providing guidance and direction
+                                                as needed.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="margin-bottom: 15px;">
+                                        <div style="font-weight: bold; margin-bottom: 3px;">STAFF ACCOUNTANT</div>
+                                        <div style="font-style: italic; margin-bottom: 3px;">Dobra Corporation,
+                                            Washington DC, Jan 2013-Feb 2018
+                                        </div>
+                                        <div style="font-size: 14px; margin-left: 20px;">
+                                            <div>- Managing relationships with external auditors, tax professionals, and
+                                                other financial service providers.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="width: 48%;">
+                                <div style="margin-bottom: 20px;">
+                                    <div style="font-weight: bold; font-size: 18px; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 3px; margin-bottom: 10px;">
+                                        SKILLS
+                                    </div>
+                                    <ul style="list-style-type: none; padding-left: 0; margin-top: 5px;">
+                                        <li style="margin-bottom: 5px; font-size: 14px;">Business Strategies</li>
+                                        <li style="margin-bottom: 5px; font-size: 14px;">Budget management</li>
+                                        <li style="margin-bottom: 5px; font-size: 14px;">Event research and reporting
+                                        </li>
+                                        <li style="margin-bottom: 5px; font-size: 14px;">Team building</li>
+                                        <li style="margin-bottom: 5px; font-size: 14px;">Time Management</li>
+                                    </ul>
+                                </div>
+                                <div style="margin-bottom: 20px;">
+                                    <div style="font-weight: bold; font-size: 18px; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 3px; margin-bottom: 10px;">
+                                        LANGUAGES
+                                    </div>
+                                    <ul style="list-style-type: none; padding-left: 0; margin-top: 5px;">
+                                        <li style="margin-bottom: 5px; font-size: 14px;">English - Native</li>
+                                        <li style="margin-bottom: 5px; font-size: 14px;">Italian - Advanced</li>
+                                        <li style="margin-bottom: 5px; font-size: 14px;">Spanish - Elementary</li>
+                                        <li style="margin-bottom: 5px; font-size: 14px;">German - Elementary</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <div style="font-weight: bold; font-size: 18px; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 3px; margin-bottom: 10px;">
+                                EDUCATION
+                            </div>
+                            <div style="margin-bottom: 15px;">
+                                <div style="font-weight: bold; margin-bottom: 3px;">ADVANCED FINANCIAL ACCOUNTING</div>
+                                <div style="font-style: italic; margin-bottom: 3px;">Georgetown University, Washington
+                                    DC, Jan 2020-Feb 2022
+                                </div>
+                                <div style="font-size: 14px; margin-left: 20px;">
+                                    Principles and practices of auditing, including the role of the auditor, the audit
+                                    process, and the detection and prevention of fraud.
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 15px;">
+                                <div style="font-weight: bold; margin-bottom: 3px;">MANAGERIAL ACCOUNTING</div>
+                                <div style="font-style: italic; margin-bottom: 3px;">Georgetown University, Washington
+                                    DC, Jan 2020-Feb 2022
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 15px;">
+                                <div style="font-weight: bold; margin-bottom: 3px;">FINANCIAL ACCOUNTING</div>
+                                <div style="font-style: italic; margin-bottom: 3px;">American University, Washington DC,
+                                    Jan 2020-Feb 2022
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+            </svg>
+            <a href="/campbell" class="select-btn">Select Template</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

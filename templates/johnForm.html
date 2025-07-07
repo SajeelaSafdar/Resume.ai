@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume.ai - Resume Maker</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 15px;
+            display: flex;
+            gap: 30px;
+        }
+
+        .container {
+            position: relative;
+        }
+
+        .top-right-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #38a169;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .top-right-btn:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+
+        header {
+            background-color: #ffffff;
+            color: #2d3748;
+            padding: 18px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo img {
+            width: 36px;
+            height: 36px;
+        }
+
+        .logo h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2d3748;
+            letter-spacing: -0.5px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 28px;
+            align-items: center;
+        }
+
+        nav ul li a {
+            color: #4a5568;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            font-size: 15px;
+        }
+
+        nav ul li a:hover {
+            color: #38a169;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .auth-btn {
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .login-btn {
+            background-color: transparent;
+            color: #38a169;
+            border: 1px solid #e2e8f0;
+        }
+
+        .login-btn:hover {
+            background-color: #f0fff4;
+            border-color: #c6f6d5;
+        }
+
+        .signup-btn {
+            background-color: #38a169;
+            color: white;
+            border: 1px solid #38a169;
+        }
+
+        .signup-btn:hover {
+            background-color: #2f855a;
+            border-color: #2f855a;
+        }
+
+        .form-section {
+            flex: 25; /* Changed to 25% width */
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            max-height: 11in;
+            overflow-y: auto;
+        }
+
+        .form-section h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #1a202c;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #4a5568;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .save-btn {
+            padding: 10px 20px;
+            background-color: #38a169;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .save-btn:hover {
+            background-color: #2f855a;
+        }
+
+        .add-btn {
+            padding: 5px 10px;
+            background-color: #38a169;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .add-btn:hover {
+            background-color: #2f855a;
+        }
+
+        .remove-btn {
+            padding: 5px 10px;
+            background-color: #e53e3e;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .remove-btn:hover {
+            background-color: #c53030;
+        }
+
+        .contact-fields {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .preview-section {
+            flex: 75; /* Changed to 75% width */
+            background-color: #fff;
+            padding: 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            border: 1px solid #000;
+            overflow-x: hidden;
+            overflow-y: visible;
+            margin-top: 60px;
+        }
+
+        .resume {
+            width: 210mm;
+            min-height: 297mm;
+            box-sizing: border-box;
+            padding: 20mm;
+        }
+
+        .resume-header {
+            text-align: left;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .resume-header h1 {
+            margin: 0;
+            font-size: 36px;
+            color: #000;
+            display: inline;
+        }
+
+        .resume-header .contact {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .resume-header .title {
+            font-size: 14px;
+            color: #000;
+            margin-top: 5px;
+        }
+
+        .resume-header .title strong {
+            font-weight: bold;
+        }
+
+        .resume-body {
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .resume-section {
+            margin-bottom: 20px;
+        }
+
+        .resume-section h2 {
+            font-size: 18px;
+            color: #0000FF;
+            border-bottom: 1px solid #000;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+
+        .experience-entry {
+            margin-bottom: 15px;
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .experience-left {
+            font-weight: bold;
+        }
+
+        .experience-right {
+            font-style: italic;
+        }
+
+        .bullet-list {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+
+        .bullet-list li {
+            margin-bottom: 3px;
+        }
+
+        .project-entry {
+            margin-bottom: 15px;
+        }
+
+        .project-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .skills-item-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .skill-name-input {
+            flex: 2;
+        }
+
+        .skill-proficiency-input {
+            flex: 1;
+        }
+
+        .skill-item-preview {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .skill-name {
+            flex-grow: 1;
+        }
+
+        .skill-rating {
+            display: flex;
+            gap: 3px;
+        }
+
+        .rating-circle {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1px solid #007bff;
+        }
+
+        .rating-circle.filled {
+            background-color: #007bff;
+        }
+
+        .interest-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .interest-input {
+            flex-grow: 1;
+        }
+
+        .interests-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .interests-list li {
+            display: inline;
+        }
+
+        .interests-list li:after {
+            content: ", ";
+        }
+
+        .interests-list li:last-child:after {
+            content: "";
+        }
+
+        .preview-wrapper {
+            flex: 75;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-container">
+        <div class="logo">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzM4YTE2OSIgZD0iTTE5LDNIMThWMUgxNlYzSDhWMUg2VjNINVMzLDMuOSAzLDVWMTlDMywyMC4xLDMuOSwyMSw1LDIxSDE5QzIwLjEsMjEsMjEsMjAuMSwyMSwxOVY1QzIxLDMuOSwyMC4xLDMsMTksM00xOSwxOUg1VjhIMTlWMTlNNywxMEgxMlYxNEg3VjEwTTE0LDEwSDE3VjE0SDE0VjEwTTcsMTZIMTJWMThIN1YxNk0xNCwxNkgxN1YxOEgxNFYxNiIvPjwvc3ZnPg=="
+                 alt="Resume Icon">
+            <h1>Resume.ai</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/dashboard">Home</a></li>
+                <li><a href="/templates">Templates</a></li>
+                <li>
+                    <div class="auth-buttons">
+                        <a href="/findJob" class="auth-btn login-btn">Find Jobs</a>
+                        <a href="/logout" class="auth-btn signup-btn">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<form id="john_form">
+    <div class="container">
+    <div class="form-section">
+        {% set data = resume_data.to_mongo().to_dict() if resume_data else {} %}
+        <h2>Enter Your Details</h2>
+
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" name="name" id="name" value="{{ data.get('name', '') }}">
+        </div>
+
+        <div class="form-group">
+            <label>Contact Info</label>
+            <div class="contact-fields">
+                <input type="text" name="phone" id="phone" placeholder="Phone" value="{{ data.get('phone', '') }}">
+                <input type="email" name="email" id="email" placeholder="Email" value="{{ data.get('email', '') }}">
+                <input type="url" name="linkedin" id="linkedin" placeholder="LinkedIn URL" value="{{ data.get('linkedin', '') }}">
+                <input type="url" name="github" id="github" placeholder="GitHub URL" value="{{ data.get('github', '') }}">
+                <input type="url" name="leetcode" id="leetcode" placeholder="LeetCode URL" value="{{ data.get('leetcode', '') }}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="job-title">Job Title</label>
+            <input type="text" name="job" id="job-title" value="{{ data.get('job', '') }}">
+        </div>
+
+        <div class="form-group">
+            <label for="job-description">Job Description</label>
+            <textarea name="jdescription" id="job-description">{{ data.get('jdescription', '') }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="objective">Objective</label>
+            <textarea name="objective" id="objective">{{ data.get('objective', '') }}</textarea>
+        </div>
+
+        <div class="form-group" id="experience-group">
+            <label>Experience</label>
+            {% if data.experience %}
+                {% for exp in data.experience %}
+                <div class="experience-item" id="experience-item-{{ loop.index0 }}">
+                    <input type="text" name="company[]" id="company-{{ loop.index0 }}" placeholder="Company" value="{{ exp.company if 'company' in exp else '' }}">
+                    <input type="text" name="title[]" id="job-title-{{ loop.index0 }}" placeholder="Job Title" value="{{ exp.title if 'title' in exp else '' }}">
+                    <input type="text" name="location[]" id="location-{{ loop.index0 }}" placeholder="Location" value="{{ exp.location if 'location' in exp else '' }}">
+                    <input type="text" name="from_date[]" id="from-{{ loop.index0 }}" placeholder="From (e.g., Jan 2011)" value="{{ exp.from_date if 'from_date' in exp else '' }}">
+                    <input type="text" name="to_date[]" id="to-{{ loop.index0 }}" placeholder="To (e.g., Feb 2015)" value="{{ exp.to_date if 'to_date' in exp else '' }}">
+                    <textarea name="description[]" id="description-{{ loop.index0 }}" placeholder="Description (one point per line)">{{ exp.description if 'description' in exp else '' }}</textarea>
+                    <button type="button" class="add-btn" onclick="addExperience()">+</button>
+                    {% if not loop.first %}
+                        <button type="button" class="remove-btn" onclick="removeExperience({{ loop.index0 }})">-</button>
+                    {% else %}
+                        <button type="button" class="remove-btn" onclick="removeExperience({{ loop.index0 }})" style="display: none;">-</button>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="experience-item" id="experience-item-0">
+                    <input type="text" name="company[]" id="company-0" placeholder="Company">
+                    <input type="text" name="title[]" id="job-title-0" placeholder="Job Title">
+                    <input type="text" name="location[]" id="location-0" placeholder="Location">
+                    <input type="text" name="from_date[]" id="from-0" placeholder="From (e.g., Jan 2011)">
+                    <input type="text" name="to_date[]" id="to-0" placeholder="To (e.g., Feb 2015)">
+                    <textarea name="description[]" id="description-0" placeholder="Description (one point per line)"></textarea>
+                    <button type="button" class="add-btn" onclick="addExperience()">+</button>
+                    <button type="button" class="remove-btn" onclick="removeExperience(0)" style="display: none;">-</button>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group" id="education-group">
+            <label>Education</label>
+            {% if data.education %}
+                {% for edu in data.education %}
+                <div class="education-item" id="education-item-{{ loop.index0 }}">
+                    <input type="text" name="university[]" id="university-{{ loop.index0 }}" placeholder="University" value="{{ edu.university if 'university' in edu else '' }}">
+                    <input type="text" name="degree[]" id="degree-{{ loop.index0 }}" placeholder="Degree" value="{{ edu.degree if 'degree' in edu else '' }}">
+                    <input type="text" name="elocation[]" id="location-edu-{{ loop.index0 }}" placeholder="Location" value="{{ edu.location if 'location' in edu else '' }}">
+                    <input type="text" name="from_e[]" id="from-edu-{{ loop.index0 }}" placeholder="From (e.g., Jan 2011)" value="{{ edu.start_year if 'start_year' in edu else '' }}">
+                    <input type="text" name="to_e[]" id="to-edu-{{ loop.index0 }}" placeholder="To (e.g., Feb 2015)" value="{{ edu.end_year if 'end_year' in edu else '' }}">
+                    <textarea name="edescription[]" id="description-edu-{{ loop.index0 }}" placeholder="Description (one point per line)">{{ edu.description if 'description' in edu else '' }}</textarea>
+                    <button type="button" class="add-btn" onclick="addEducation()">+</button>
+                    {% if not loop.first %}
+                        <button type="button" class="remove-btn" onclick="removeEducation({{ loop.index0 }})">-</button>
+                    {% else %}
+                        <button type="button" class="remove-btn" onclick="removeEducation({{ loop.index0 }})" style="display: none;">-</button>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="education-item" id="education-item-0">
+                    <input type="text" name="university[]" id="university-0" placeholder="University">
+                    <input type="text" name="degree[]" id="degree-0" placeholder="Degree">
+                    <input type="text" name="elocation[]" id="location-edu-0" placeholder="Location">
+                    <input type="text" name="from_e[]" id="from-edu-0" placeholder="From (e.g., Jan 2011)">
+                    <input type="text" name="to_e[]" id="to-edu-0" placeholder="To (e.g., Feb 2015)">
+                    <textarea name="edescription[]" id="description-edu-0" placeholder="Description (one point per line)"></textarea>
+                    <button type="button" class="add-btn" onclick="addEducation()">+</button>
+                    <button type="button" class="remove-btn" onclick="removeEducation(0)" style="display: none;">-</button>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group" id="projects-group">
+            <label>Projects</label>
+            {% if data.projects %}
+                {% for project in data.projects %}
+                <div class="project-item" id="project-item-{{ loop.index0 }}">
+                    <input type="text" name="ptitle[]" id="project-title-{{ loop.index0 }}" placeholder="Project Title" value="{{ project.title if 'title' in project else '' }}">
+                    <textarea name="pdescription[]" id="project-description-{{ loop.index0 }}" placeholder="Project Description (one point per line)">{{ project.description if 'description' in project else '' }}</textarea>
+                    <button type="button" class="add-btn" onclick="addProject()">+</button>
+                    {% if not loop.first %}
+                        <button type="button" class="remove-btn" onclick="removeProject({{ loop.index0 }})">-</button>
+                    {% else %}
+                        <button type="button" class="remove-btn" onclick="removeProject({{ loop.index0 }})" style="display: none;">-</button>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="project-item" id="project-item-0">
+                    <input type="text" name="ptitle[]" id="project-title-0" placeholder="Project Title">
+                    <textarea name="pdescription[]" id="project-description-0" placeholder="Project Description (one point per line)"></textarea>
+                    <button type="button" class="add-btn" onclick="addProject()">+</button>
+                    <button type="button" class="remove-btn" onclick="removeProject(0)" style="display: none;">-</button>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group" id="skills-group">
+            <label>Skills</label>
+            {% if data.skill %}
+                {% for skill in data.skill %}
+                <div class="skills-item" id="skills-item-{{ loop.index0 }}">
+                    <div class="skill-item-form">
+                        <input type="text" name="sname[]" id="skill-name-{{ loop.index0 }}" class="skill-name-input" placeholder="Skill (e.g., C++)" value="{{ skill.name if 'name' in skill else '' }}">
+                        <select name="sprof[]" id="skill-proficiency-{{ loop.index0 }}" class="skill-proficiency-input">
+                            <option value="1" {% if skill.level == 1 %}selected{% endif %}>1 - Beginner</option>
+                            <option value="2" {% if skill.level == 2 %}selected{% endif %}>2 - Basic</option>
+                            <option value="3" {% if skill.level == 3 %}selected{% endif %}>3 - Intermediate</option>
+                            <option value="4" {% if skill.level == 4 %}selected{% endif %}>4 - Advanced</option>
+                            <option value="5" {% if skill.level == 5 or not skill.level %}selected{% endif %}>5 - Expert</option>
+                        </select>
+                        <button type="button" class="add-btn" onclick="addSkill()">+</button>
+                        {% if not loop.first %}
+                            <button type="button" class="remove-btn" onclick="removeSkill({{ loop.index0 }})">-</button>
+                        {% else %}
+                            <button type="button" class="remove-btn" onclick="removeSkill({{ loop.index0 }})" style="display: none;">-</button>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="skills-item" id="skills-item-0">
+                    <div class="skill-item-form">
+                        <input type="text" name="sname[]" id="skill-name-0" class="skill-name-input" placeholder="Skill (e.g., C++)">
+                        <select name="sprof[]" id="skill-proficiency-0" class="skill-proficiency-input">
+                            <option value="1">1 - Beginner</option>
+                            <option value="2">2 - Basic</option>
+                            <option value="3">3 - Intermediate</option>
+                            <option value="4">4 - Advanced</option>
+                            <option value="5" selected>5 - Expert</option>
+                        </select>
+                        <button type="button" class="add-btn" onclick="addSkill()">+</button>
+                        <button type="button" class="remove-btn" onclick="removeSkill(0)" style="display: none;">-</button>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group" id="interests-group">
+            <label>Interests</label>
+            {% if data.interest %}
+                {% for interest in data.interest %}
+                <div class="interest-item" id="interest-item-{{ loop.index0 }}">
+                    <input name="interest[]" type="text" id="interest-{{ loop.index0 }}" class="interest-input" placeholder="Interest (e.g., Photography)" value="{{ interest.title if 'title' in interest else '' }}">
+                    <button type="button" class="add-btn" onclick="addInterest()">+</button>
+                    {% if not loop.first %}
+                        <button type="button" class="remove-btn" onclick="removeInterest({{ loop.index0 }})">-</button>
+                    {% else %}
+                        <button type="button" class="remove-btn" onclick="removeInterest({{ loop.index0 }})" style="display: none;">-</button>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="interest-item" id="interest-item-0">
+                    <input name="interest[]" type="text" id="interest-0" class="interest-input" placeholder="Interest (e.g., Photography)">
+                    <button type="button" class="add-btn" onclick="addInterest()">+</button>
+                    <button type="button" class="remove-btn" onclick="removeInterest(0)" style="display: none;">-</button>
+                </div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="save-btn">Save</button>
+        <div id="save-message" style="font-size: 16px; margin-top: 10px;"></div>
+    </div>
+    <div class="pdf button">
+        <button type="button" class="top-right-btn" onclick="generateResumePDF()">Save as PDF</button>
+    </div>
+    <div class="preview-section">
+        <div class="resume" id="resume-body">
+            <div class="resume-header">
+                <h1 id="resume-name"></h1>
+                <div class="contact" id="resume-contact"></div>
+                <div class="title" id="resume-title"></div>
+            </div>
+            <div class="resume-body">
+                <div class="resume-section" id="objective-section">
+                    <div id="objective-header"></div>
+                    <p id="resume-objective"></p>
+                </div>
+                <div class="resume-section" id="experience-section">
+                    <div id="experience-header"></div>
+                    <div id="resume-experience"></div>
+                </div>
+                <div class="resume-section" id="education-section">
+                    <div id="education-header"></div>
+                    <div id="resume-education"></div>
+                </div>
+                <div class="resume-section" id="projects-section">
+                    <div id="projects-header"></div>
+                    <div id="resume-projects"></div>
+                </div>
+                <div class="resume-section" id="skills-section">
+                    <div id="skills-header"></div>
+                    <div id="resume-skills"></div>
+                </div>
+                <div class="resume-section" id="interests-section">
+                    <div id="interests-header"></div>
+                    <ul class="interests-list" id="resume-interests"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</form>
+
+<script>
+    document.getElementById('john_form').addEventListener('submit', function (e) {
+        e.preventDefault(); // Prevent form from navigating away
+
+        const formData = new FormData(this);
+        const msgDiv = document.getElementById('save-message');
+
+        fetch('/johndb', {
+            method: 'POST',
+            body: formData
+        })
+            .then(async response => {
+                const data = await response.json();
+                msgDiv.textContent = data.message;
+
+                if (response.ok) {
+                    msgDiv.style.color = 'green';
+                } else {
+                    msgDiv.style.color = 'red';
+                }
+            })
+            .catch(error => {
+                msgDiv.textContent = "Network error"
+                msgDiv.style.color = 'red';
+            });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const inputs = {
+            name: document.getElementById('name'),
+            phone: document.getElementById('phone'),
+            email: document.getElementById('email'),
+            linkedin: document.getElementById('linkedin'),
+            github: document.getElementById('github'),
+            leetcode: document.getElementById('leetcode'),
+            jobTitle: document.getElementById('job-title'),
+            jobDescription: document.getElementById('job-description'),
+            objective: document.getElementById('objective')
+        };
+
+        const headers = {
+            objective: document.getElementById('objective-header'),
+            experience: document.getElementById('experience-header'),
+            education: document.getElementById('education-header'),
+            projects: document.getElementById('projects-header'),
+            skills: document.getElementById('skills-header'),
+            interests: document.getElementById('interests-header')
+        };
+
+        const previews = {
+            name: document.getElementById('resume-name'),
+            contact: document.getElementById('resume-contact'),
+            title: document.getElementById('resume-title'),
+            objective: document.getElementById('resume-objective'),
+            experience: document.getElementById('resume-experience'),
+            education: document.getElementById('resume-education'),
+            projects: document.getElementById('resume-projects'),
+            skills: document.getElementById('resume-skills'),
+            interests: document.getElementById('resume-interests')
+        };
+
+        let experienceCount = 1;
+        let educationCount = 1;
+        let projectCount = 1;
+        let skillCount = 1;
+        let interestCount = 1;
+
+        function updatePreview() {
+            // Update name, contact, and title
+            previews.name.textContent = inputs.name.value || '';
+            previews.contact.textContent = [
+                inputs.email.value ? 'Email: ' + inputs.email.value : '',
+                inputs.phone.value ? 'Phone: ' + inputs.phone.value : '',
+                inputs.linkedin.value ? 'LinkedIn' : '',
+                inputs.github.value ? 'GitHub' : '',
+                inputs.leetcode.value ? 'LeetCode' : ''
+            ].filter(Boolean).join(' • ');
+            let contactHtml = previews.contact.textContent;
+            if (inputs.linkedin.value) {
+                contactHtml = contactHtml.replace('LinkedIn', `<a href="${inputs.linkedin.value}" target="_blank">LinkedIn</a>`);
+            }
+            if (inputs.github.value) {
+                contactHtml = contactHtml.replace('GitHub', `<a href="${inputs.github.value}" target="_blank">GitHub</a>`);
+            }
+            if (inputs.leetcode.value) {
+                contactHtml = contactHtml.replace('LeetCode', `<a href="${inputs.leetcode.value}" target="_blank">LeetCode</a>`);
+            }
+            previews.contact.innerHTML = contactHtml;
+
+            // Update job title and description
+            previews.title.innerHTML = '';
+            if (inputs.jobTitle.value) {
+                previews.title.innerHTML = `<strong>${inputs.jobTitle.value}</strong>`;
+                if (inputs.jobDescription.value) {
+                    previews.title.innerHTML += `: ${inputs.jobDescription.value}`;
+                }
+            }
+
+            // Update Objective and header
+            const hasObjective = inputs.objective.value.trim() !== '';
+            headers.objective.innerHTML = hasObjective ? '<h2>Objective</h2>' : '';
+            previews.objective.textContent = inputs.objective.value || '';
+
+            // Update Experience and header
+            let experienceContent = '';
+            let hasExperience = false;
+            for (let i = 0; i < experienceCount; i++) {
+                const company = document.getElementById(`company-${i}`)?.value || '';
+                const jobTitle = document.getElementById(`job-title-${i}`)?.value || '';
+                const location = document.getElementById(`location-${i}`)?.value || '';
+                const from = document.getElementById(`from-${i}`)?.value || '';
+                const to = document.getElementById(`to-${i}`)?.value || '';
+                const description = document.getElementById(`description-${i}`)?.value.trim() || '';
+
+                if (company || jobTitle || location || from || to || description) {
+                    hasExperience = true;
+                    experienceContent += `
+                        <div class="experience-entry">
+                            <div class="experience-header">
+                                <div class="experience-left">
+                                    ${company ? company + ', ' : ''}${location}
+                                </div>
+                                <div class="experience-right">
+                                    ${from && to ? `${from} - ${to}` : ''}
+                                </div>
+                            </div>
+                            <div class="job-title">${jobTitle}</div>
+                            <ul class="bullet-list">
+                                ${description.split('\n').filter(line => line.trim()).map(line =>
+                                    `<li>${line.trim()}</li>`
+                                ).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+            }
+            headers.experience.innerHTML = hasExperience ? '<h2>Experience</h2>' : '';
+            previews.experience.innerHTML = experienceContent;
+
+            // Update Education and header
+            let educationContent = '';
+            let hasEducation = false;
+            for (let i = 0; i < educationCount; i++) {
+                const university = document.getElementById(`university-${i}`)?.value || '';
+                const degree = document.getElementById(`degree-${i}`)?.value || '';
+                const locationEdu = document.getElementById(`location-edu-${i}`)?.value || '';
+                const fromEdu = document.getElementById(`from-edu-${i}`)?.value || '';
+                const toEdu = document.getElementById(`to-edu-${i}`)?.value || '';
+                const descriptionEdu = document.getElementById(`description-edu-${i}`)?.value.trim() || '';
+
+                if (university || degree || locationEdu || fromEdu || toEdu || descriptionEdu) {
+                    hasEducation = true;
+                    educationContent += `
+                        <div class="experience-entry">
+                            <div class="experience-header">
+                                <div class="experience-left">
+                                    ${university ? university + ', ' : ''}${locationEdu}
+                                </div>
+                                <div class="experience-right">
+                                    ${fromEdu && toEdu ? `${fromEdu} - ${toEdu}` : ''}
+                                </div>
+                            </div>
+                            <div class="job-title">${degree}</div>
+                            <ul class="bullet-list">
+                                ${descriptionEdu.split('\n').filter(line => line.trim()).map(line =>
+                                    `<li>${line.trim()}</li>`
+                                ).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+            }
+            headers.education.innerHTML = hasEducation ? '<h2>Education</h2>' : '';
+            previews.education.innerHTML = educationContent;
+
+            // Update Projects and header
+            let projectsContent = '';
+            let hasProjects = false;
+            for (let i = 0; i < projectCount; i++) {
+                const title = document.getElementById(`project-title-${i}`)?.value || '';
+                const description = document.getElementById(`project-description-${i}`)?.value.trim() || '';
+
+                if (title || description) {
+                    hasProjects = true;
+                    projectsContent += `
+                        <div class="project-entry">
+                            <div class="project-title">${title}</div>
+                            <ul class="bullet-list">
+                                ${description.split('\n').filter(line => line.trim()).map(line =>
+                                    `<li>${line.trim()}</li>`
+                                ).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+            }
+            headers.projects.innerHTML = hasProjects ? '<h2>Projects</h2>' : '';
+            previews.projects.innerHTML = projectsContent;
+
+            // Update Skills and header
+            let hasSkills = false;
+            let skillsContent = '';
+
+            for (let i = 0; i < skillCount; i++) {
+                const skillName = document.getElementById(`skill-name-${i}`)?.value || '';
+                const proficiency = parseInt(document.getElementById(`skill-proficiency-${i}`)?.value) || 0;
+
+                if (skillName) {
+                    hasSkills = true;
+                    skillsContent += `
+                        <div class="skill-item-preview">
+                            <div class="skill-name">${skillName}</div>
+                            <div class="skill-rating">
+                                ${Array(5).fill().map((_, i) =>
+                                    `<div class="rating-circle ${i < proficiency ? 'filled' : ''}"></div>`
+                                ).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            headers.skills.innerHTML = hasSkills ? '<h2>Skills</h2>' : '';
+            previews.skills.innerHTML = skillsContent;
+
+            // Update Interests and header
+            let interestsContent = '';
+            let hasInterests = false;
+
+            for (let i = 0; i < interestCount; i++) {
+                const interest = document.getElementById(`interest-${i}`)?.value.trim() || '';
+                if (interest) {
+                    hasInterests = true;
+                    interestsContent += `<li>${interest}</li>`;
+                }
+            }
+
+            headers.interests.innerHTML = hasInterests ? '<h2>Interests</h2>' : '';
+            previews.interests.innerHTML = interestsContent;
+        }
+
+        // Setup event listeners for all form fields
+        function setupAllListeners() {
+            // Static fields
+            Object.values(inputs).forEach(input => {
+                if (input) input.addEventListener('input', updatePreview);
+            });
+
+            // Dynamic fields
+            setupDynamicListeners();
+        }
+
+        // Setup listeners for dynamically added fields
+        function setupDynamicListeners() {
+            // Experience fields
+            for (let i = 0; i < experienceCount; i++) {
+                ['company', 'job-title', 'location', 'from', 'to', 'description'].forEach(field => {
+                    const input = document.getElementById(`${field}-${i}`);
+                    if (input && !input.dataset.listener) {
+                        input.addEventListener('input', updatePreview);
+                        input.dataset.listener = 'true';
+                    }
+                });
+            }
+
+            // Education fields
+            for (let i = 0; i < educationCount; i++) {
+                ['university', 'degree', 'location-edu', 'from-edu', 'to-edu', 'description-edu'].forEach(field => {
+                    const input = document.getElementById(`${field}-${i}`);
+                    if (input && !input.dataset.listener) {
+                        input.addEventListener('input', updatePreview);
+                        input.dataset.listener = 'true';
+                    }
+                });
+            }
+
+            // Project fields
+            for (let i = 0; i < projectCount; i++) {
+                ['project-title', 'project-description'].forEach(field => {
+                    const input = document.getElementById(`${field}-${i}`);
+                    if (input && !input.dataset.listener) {
+                        input.addEventListener('input', updatePreview);
+                        input.dataset.listener = 'true';
+                    }
+                });
+            }
+
+            // Skill fields
+            for (let i = 0; i < skillCount; i++) {
+                ['skill-name', 'skill-proficiency'].forEach(field => {
+                    const input = document.getElementById(`${field}-${i}`);
+                    if (input && !input.dataset.listener) {
+                        input.addEventListener('input', updatePreview);
+                        input.addEventListener('change', updatePreview);
+                        input.dataset.listener = 'true';
+                    }
+                });
+            }
+
+            // Interest fields
+            for (let i = 0; i < interestCount; i++) {
+                const input = document.getElementById(`interest-${i}`);
+                if (input && !input.dataset.listener) {
+                    input.addEventListener('input', updatePreview);
+                    input.dataset.listener = 'true';
+                }
+            }
+        }
+
+        // Save resume as PDF
+        window.saveResume = function () {
+            const resumeData = {
+                name: inputs.name?.value || '',
+                phone: inputs.phone?.value || '',
+                email: inputs.email?.value || '',
+                linkedin: inputs.linkedin?.value || '',
+                github: inputs.github?.value || '',
+                leetcode: inputs.leetcode?.value || '',
+                jobTitle: inputs.jobTitle?.value || '',
+                jobDescription: inputs.jobDescription?.value || '',
+                objective: inputs.objective?.value || '',
+                experiences: [],
+                educations: [],
+                projects: [],
+                skills: [],
+                interests: []
+            };
+
+            for (let i = 0; i < experienceCount; i++) {
+                const experience = {
+                    company: document.getElementById(`company-${i}`)?.value || '',
+                    jobTitle: document.getElementById(`job-title-${i}`)?.value || '',
+                    location: document.getElementById(`location-${i}`)?.value || '',
+                    from: document.getElementById(`from-${i}`)?.value || '',
+                    to: document.getElementById(`to-${i}`)?.value || '',
+                    description: document.getElementById(`description-${i}`)?.value || ''
+                };
+                if (experience.company || experience.jobTitle || experience.location || experience.from || experience.to || experience.description) {
+                    resumeData.experiences.push(experience);
+                }
+            }
+
+            for (let i = 0; i < educationCount; i++) {
+                const education = {
+                    university: document.getElementById(`university-${i}`)?.value || '',
+                    degree: document.getElementById(`degree-${i}`)?.value || '',
+                    location: document.getElementById(`location-edu-${i}`)?.value || '',
+                    from: document.getElementById(`from-edu-${i}`)?.value || '',
+                    to: document.getElementById(`to-edu-${i}`)?.value || '',
+                    description: document.getElementById(`description-edu-${i}`)?.value || ''
+                };
+                if (education.university || education.degree || education.location || education.from || education.to || education.description) {
+                    resumeData.educations.push(education);
+                }
+            }
+
+            for (let i = 0; i < projectCount; i++) {
+                const project = {
+                    title: document.getElementById(`project-title-${i}`)?.value || '',
+                    description: document.getElementById(`project-description-${i}`)?.value || ''
+                };
+                if (project.title || project.description) {
+                    resumeData.projects.push(project);
+                }
+            }
+
+            for (let i = 0; i < skillCount; i++) {
+                const skill = {
+                    name: document.getElementById(`skill-name-${i}`)?.value || '',
+                    proficiency: document.getElementById(`skill-proficiency-${i}`)?.value || ''
+                };
+                if (skill.name) {
+                    resumeData.skills.push(skill);
+                }
+            }
+
+            for (let i = 0; i < interestCount; i++) {
+                const interest = {
+                    name: document.getElementById(`interest-${i}`)?.value || ''
+                };
+                if (interest.name) {
+                    resumeData.interests.push(interest);
+                }
+            }
+
+            fetch('/api/save-resume', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(resumeData)
+            })
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `resume_${resumeData.name || 'user'}.pdf`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(error => {
+                    console.error('Error saving resume:', error);
+                    alert('Failed to save resume. Please try again.');
+                });
+        };
+
+        // Experience management
+        window.addExperience = function () {
+            const item = document.createElement('div');
+            item.className = 'experience-item';
+            item.id = `experience-item-${experienceCount}`;
+            item.innerHTML = `
+                <input type="text" name="company[]" id="company-${experienceCount}" placeholder="Company">
+                <input type="text" name="title[]" id="job-title-${experienceCount}" placeholder="Job Title">
+                <input type="text" name="location[]" id="location-${experienceCount}" placeholder="Location">
+                <input type="text" name="from_date[]" id="from-${experienceCount}" placeholder="From (e.g., Jan 2011)">
+                <input type="text" name="to_date[]" id="to-${experienceCount}" placeholder="To (e.g., Feb 2015)">
+                <textarea name="description[]" id="description-${experienceCount}" placeholder="Description (one point per line)"></textarea>
+                <button type="button" class="add-btn" onclick="addExperience()">+</button>
+                <button type="button" class="remove-btn" onclick="removeExperience(${experienceCount})">-</button>
+            `;
+            document.getElementById('experience-group').appendChild(item);
+            if (experienceCount > 0) {
+                const lastRemoveBtn = document.querySelector(`#experience-item-${experienceCount - 1} .remove-btn`);
+                if (lastRemoveBtn) lastRemoveBtn.style.display = 'inline';
+            }
+            experienceCount++;
+            setupDynamicListeners();
+            updatePreview();
+        };
+
+        window.removeExperience = function (index) {
+            const item = document.getElementById(`experience-item-${index}`);
+            if (item) item.remove();
+            experienceCount = Math.max(0, experienceCount - 1);
+            if (experienceCount > 0) {
+                const lastRemoveBtn = document.querySelector(`#experience-item-${experienceCount - 1} .remove-btn`);
+                if (lastRemoveBtn) lastRemoveBtn.style.display = 'none';
+            }
+            updatePreview();
+        };
+
+        // Education management
+        window.addEducation = function () {
+            const item = document.createElement('div');
+            item.className = 'education-item';
+            item.id = `education-item-${educationCount}`;
+            item.innerHTML = `
+                <input type="text" name="university[]" id="university-${educationCount}" placeholder="University">
+                <input type="text"  name="degree[]" id="degree-${educationCount}" placeholder="Degree">
+                <input type="text" name="elocation[]"  id="location-edu-${educationCount}" placeholder="Location">
+                <input type="text" name="from_e[]"  id="from-edu-${educationCount}" placeholder="From (e.g., Jan 2011)">
+                <input type="text" name="to_e[]"  id="to-edu-${educationCount}" placeholder="To (e.g., Feb 2015)">
+                <textarea  name="edescription[]" id="description-edu-${educationCount}" placeholder="Description (one point per line)"></textarea>
+                <button type="button" class="add-btn" onclick="addEducation()">+</button>
+                <button type="button" class="remove-btn" onclick="removeEducation(${educationCount})">-</button>
+            `;
+            document.getElementById('education-group').appendChild(item);
+            if (educationCount > 0) {
+                const lastRemoveBtn = document.querySelector(`#education-item-${educationCount - 1} .remove-btn`);
+                if (lastRemoveBtn) lastRemoveBtn.style.display = 'inline';
+            }
+            educationCount++;
+            setupDynamicListeners();
+            updatePreview();
+        };
+
+        window.removeEducation = function (index) {
+            const item = document.getElementById(`education-item-${index}`);
+            if (item) item.remove();
+            educationCount = Math.max(0, educationCount - 1);
+            if (educationCount > 0) {
+                const lastRemoveBtn = document.querySelector(`#education-item-${educationCount - 1} .remove-btn`);
+                if (lastRemoveBtn) lastRemoveBtn.style.display = 'none';
+            }
+            updatePreview();
+        };
+
+        // Project management
+        window.addProject = function () {
+            const item = document.createElement('div');
+            item.className = 'project-item';
+            item.id = `project-item-${projectCount}`;
+            item.innerHTML = `
+                <input type="text" name="ptitle[]" id="project-title-${projectCount}" placeholder="Project Title">
+                <textarea name="pdescription[]" id="project-description-${projectCount}" placeholder="Project Description (one point per line)"></textarea>
+                <button type="button" class="add-btn" onclick="addProject()">+</button>
+                <button type="button"  class="remove-btn" onclick="removeProject(${projectCount})">-</button>
+            `;
+            document.getElementById('projects-group').appendChild(item);
+            if (projectCount > 0) {
+                const lastRemoveBtn = document.querySelector(`#project-item-${projectCount - 1} .remove-btn`);
+                if (lastRemoveBtn) lastRemoveBtn.style.display = 'inline';
+            }
+            projectCount++;
+            setupDynamicListeners();
+            updatePreview();
+        };
+
+        window.removeProject = function (index) {
+            const item = document.getElementById(`project-item-${index}`);
+            if (item) item.remove();
+            projectCount = Math.max(0, projectCount - 1);
+            if (projectCount > 0) {
+                const lastRemoveBtn = document.querySelector(`#project-item-${projectCount - 1} .remove-btn`);
+                if (lastRemoveBtn) lastRemoveBtn.style.display = 'none';
+            }
+            updatePreview();
+        };
+
+        // Skill management
+        window.addSkill = function () {
+            const item = document.createElement('div');
+            item.className = 'skills-item';
+            item.id = `skills-item-${skillCount}`;
+            item.innerHTML = `
+                <div class="skill-item-form">
+                    <input type="text" name="sname[]" id="skill-name-${skillCount}" class="skill-name-input" placeholder="Skill (e.g., C++)">
+                    <select name="sprof[]" id="skill-proficiency-${skillCount}" class="skill-proficiency-input">
+                        <option value="1">1 - Beginner</option>
+                        <option value="2">2 - Basic</option>
+                        <option value="3">3 - Intermediate</option>
+                        <option value="4">4 - Advanced</option>
+                        <option value="5" selected>5 - Expert</option>
+                    </select>
+                    <button type="button" class="add-btn" onclick="addSkill()">+</button>
+                    <button type="button" class="remove-btn" onclick="removeSkill(${skillCount})">-</button>
+                </div>
+            `;
+            document.getElementById('skills-group').appendChild(item);
+            if (skillCount > 0) {
+                const lastRemoveBtn = document.querySelector(`#skills-item-${skillCount - 1} .remove-btn`);
+                if (lastRemoveBtn) lastRemoveBtn.style.display = 'inline';
+            }
+            skillCount++;
+            setupDynamicListeners();
+            updatePreview();
+        };
+
+        window.removeSkill = function (index) {
+            const item = document.getElementById(`skills-item-${index}`);
+            if (item) item.remove();
+            skillCount = Math.max(0, skillCount - 1);
+            if (skillCount > 0) {
+                const lastRemoveBtn = document.querySelector(`#skills-item-${skillCount - 1} .remove-btn`);
+                if (lastRemoveBtn) lastRemoveBtn.style.display = 'none';
+            }
+            updatePreview();
+        };
+
+        // Interest management
+        window.addInterest = function () {
+            const item = document.createElement('div');
+            item.className = 'interest-item';
+            item.id = `interest-item-${interestCount}`;
+            item.innerHTML = `
+                <input type="text" name="interest[]" id="interest-${interestCount}" class="interest-input" placeholder="Interest (e.g., Photography)">
+                <button type="button" class="add-btn" onclick="addInterest()">+</button>
+                <button type="button" class="remove-btn" onclick="removeInterest(${interestCount})">-</button>
+            `;
+            document.getElementById('interests-group').appendChild(item);
+            if (interestCount > 0) {
+                const lastRemoveBtn = document.querySelector(`#interest-item-${interestCount - 1} .remove-btn`);
+                if (lastRemoveBtn) lastRemoveBtn.style.display = 'inline';
+            }
+            interestCount++;
+            setupDynamicListeners();
+            updatePreview();
+        };
+
+        window.removeInterest = function (index) {
+            const item = document.getElementById(`interest-item-${index}`);
+            if (item) item.remove();
+            interestCount = Math.max(0, interestCount - 1);
+            if (interestCount > 0) {
+                const lastRemoveBtn = document.querySelector(`#interest-item-${interestCount - 1} .remove-btn`);
+                if (lastRemoveBtn) lastRemoveBtn.style.display = 'none';
+            }
+            updatePreview();
+        };
+
+        // Initialize
+        setupAllListeners();
+        updatePreview();
+    });
+</script>
+
+<script>
+    async function generateResumePDF() {
+        const button = document.querySelector('.top-right-btn');
+        const originalText = button.textContent;
+
+        try {
+            // Disable button and show loading
+            button.disabled = true;
+            button.textContent = 'Generating PDF...';
+
+            // Get the resume content
+            const resumeElement = document.getElementById('resume-body');
+            const userName = document.getElementById('name').value || 'Resume';
+
+            if (!resumeElement) {
+                throw new Error('Resume content not found');
+            }
+
+            // Ensure preview is updated
+            if (typeof updatePreview === 'function') {
+                updatePreview();
+            }
+
+            // Create a container for PDF rendering
+            const pdfContainer = document.createElement('div');
+            pdfContainer.style.position = 'absolute';
+            pdfContainer.style.top = '-9999px';
+            pdfContainer.style.left = '-9999px';
+            pdfContainer.style.width = '210mm'; // A4 width
+            pdfContainer.style.backgroundColor = 'white';
+            pdfContainer.style.padding = '15mm'; // Standard A4 margins
+            pdfContainer.style.fontFamily = 'Arial, sans-serif';
+            pdfContainer.style.fontSize = '12px';
+            pdfContainer.style.lineHeight = '1.5';
+            pdfContainer.style.color = '#333';
+
+            // Clone the resume content
+            const clone = resumeElement.cloneNode(true);
+            pdfContainer.appendChild(clone);
+            document.body.appendChild(pdfContainer);
+
+            // Adjust styles for PDF
+            clone.style.width = '100%';
+            clone.style.maxWidth = 'none';
+            clone.querySelectorAll('a').forEach(link => {
+                link.style.color = '#000';
+                link.style.textDecoration = 'underline'; // Keep links visually distinct
+                link.setAttribute('data-href', link.href); // Store href for later use
+            });
+
+            // Wait for fonts and layout to stabilize
+            await new Promise(resolve => setTimeout(resolve, 100));
+
+            try {
+                // Calculate canvas dimensions
+                const scale = 2; // Higher resolution
+                const width = 794; // A4 width in pixels at 96 DPI (210mm)
+                const contentHeight = clone.offsetHeight * scale;
+                const a4Height = 1123; // A4 height in pixels at 96 DPI (297mm)
+
+                // Generate canvas
+                const canvas = await html2canvas(pdfContainer, {
+                    scale: scale,
+                    width: width,
+                    height: Math.max(contentHeight, a4Height),
+                    backgroundColor: '#ffffff',
+                    useCORS: true,
+                    logging: false,
+                    windowWidth: width,
+                    windowHeight: Math.max(contentHeight, a4Height)
+                });
+
+                // Create PDF
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+
+                const imgData = canvas.toDataURL('image/jpeg', 0.9);
+                const imgWidth = 210; // A4 width in mm
+                const pageHeight = 297; // A4 height in mm
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                let heightLeft = imgHeight;
+                let position = 0;
+
+                // Add image to PDF
+                pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                // Add additional pages if needed
+                while (heightLeft > 0) {
+                    pdf.addPage();
+                    position = heightLeft - imgHeight;
+                    pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+
+                // Add hyperlinks for LinkedIn, GitHub, LeetCode
+                clone.querySelectorAll('a[data-href]').forEach(link => {
+                    const href = link.getAttribute('data-href');
+                    if (href) {
+                        // Approximate link position in PDF
+                        const rect = link.getBoundingClientRect();
+                        const x = (rect.left / canvas.width) * imgWidth;
+                        const y = (rect.top / canvas.height) * imgHeight;
+                        const linkWidth = (rect.width / canvas.width) * imgWidth;
+                        const linkHeight = (rect.height / canvas.height) * imgHeight;
+
+                        // Add link annotation to PDF
+                        pdf.link(x, y, linkWidth, linkHeight, { url: href });
+                    }
+                });
+
+                // Download PDF
+                pdf.save(`${userName.replace(/[^a-zA-Z0-9]/g, '_')}_Resume.pdf`);
+
+            } finally {
+                // Clean up
+                document.body.removeChild(pdfContainer);
+            }
+
+        } catch (error) {
+            console.error('Error generating PDF:', error);
+            alert('Failed to generate PDF. Please ensure all fields are filled and try again.');
+        } finally {
+            // Re-enable button
+            button.disabled = false;
+            button.textContent = originalText;
+        }
+    }
+</script>
+
+</body>
+</html>

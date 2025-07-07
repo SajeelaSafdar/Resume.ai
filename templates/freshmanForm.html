@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume.ai - Resume Maker</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 15px;
+            display: flex;
+            gap: 30px;
+        }
+
+        .container {
+            position: relative;
+        }
+
+        .top-right-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #38a169;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .top-right-btn:hover {
+            background-color: #218838;
+        }
+
+        header {
+            background-color: #ffffff;
+            color: #2d3748;
+            padding: 18px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo img {
+            width: 36px;
+            height: 36px;
+        }
+
+        .logo h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2d3748;
+            letter-spacing: -0.5px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 28px;
+            align-items: center;
+        }
+
+        nav ul li a {
+            color: #4a5568;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            font-size: 15px;
+        }
+
+        nav ul li a:hover {
+            color: #38a169;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .auth-btn {
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .login-btn {
+            background-color: transparent;
+            color: #38a169;
+            border: 1px solid #e2e8f0;
+        }
+
+        .login-btn:hover {
+            background-color: #f0fff4;
+            border-color: #c6f6d5;
+        }
+
+        .signup-btn {
+            background-color: #38a169;
+            color: white;
+            border: 1px solid #38a169;
+        }
+
+        .signup-btn:hover {
+            background-color: #2f855a;
+            border-color: #2f855a;
+        }
+
+        .form-section {
+            flex: 30;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            max-height: 11in;
+            overflow-y: auto;
+        }
+
+        .form-section h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #1a202c;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #4a5568;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .save-btn {
+            padding: 10px 20px;
+            background-color: #38a169;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .save-btn:hover {
+            background-color: #2f855a;
+        }
+
+        .add-btn {
+            padding: 5px 10px;
+            background-color: #38a169;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .add-btn:hover {
+            background-color: #2f855a;
+        }
+
+        .remove-btn {
+            padding: 5px 10px;
+            background-color: #e53e3e;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .remove-btn:hover {
+            background-color: #c53030;
+        }
+
+        .contact-fields {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .preview-section {
+            flex: 70;
+            background-color: #fff;
+            padding: 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            border: 1px solid #000;
+            overflow: hidden;
+            margin-top: 60px;
+        }
+
+        .resume {
+            font-family: Arial, sans-serif;
+            line-height: 1.5;
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 0.5in;
+            color: #333;
+        }
+
+        .resume h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-align: center;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+        }
+
+        .contact-info {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .resume h2 {
+            font-size: 18px;
+            border-bottom: 1px solid #000;
+            padding-bottom: 3px;
+            margin-bottom: 10px;
+            margin-top: 15px;
+        }
+
+        .job-title {
+            font-style: italic;
+        }
+
+        .education-item, .experience-item, .project-item {
+            margin-bottom: 15px;
+        }
+
+        .institution, .company, .project-name {
+            font-weight: bold;
+        }
+
+        .location {
+            font-style: italic;
+        }
+
+        .resume ul {
+            margin-top: 5px;
+            padding-left: 20px;
+        }
+
+        .resume li {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .skills-certifications {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .skills, .certifications {
+            width: 48%;
+        }
+
+        .service-activities {
+            margin-top: 20px;
+        }
+
+        .activity {
+            display: flex;
+            margin-bottom: 5px;
+        }
+
+        .activity-title {
+            width: 60%;
+            font-weight: bold;
+        }
+
+        .activity-date {
+            width: 40%;
+            text-align: right;
+        }
+    </style>
+</head>
+<div>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzM4YTE2OSIgZD0iTTE5LDNIMThWMUgxNlYzSDhWMUg2VjNINUMzLjksMyAzLDMuOSAzLDVWMTlDMywyMC4xLDMuOSwyMSA1LDIxSDE5QzIwLjEsMjEsMjEsMjAuMSwyMSwxOVY1QzIxLDMuOSAyMC4xLDMsMTksM00xOSwxOUg1VjhIMTlWMTlNNywxMEgxMlYxNEg3VjEwTTE0LDEwSDE3VjE0SDE0VjEwTTcsMTZIMTJWMThIN1YxNk0xNCwxNkgxN1YxOEgxNFYxNiIvPjwvc3ZnPg=="
+                     alt="Resume Icon">
+                <h1>Resume.ai</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/dashboard">Home</a></li>
+                    <li><a href="/templates">Templates</a></li>
+                    <li>
+                        <div class="auth-buttons">
+                            <a href="/findJob" class="auth-btn login-btn">Find Jobs</a>
+                            <a href="/logout" class="auth-btn signup-btn">Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <form id="freshman_form">
+        <div class="container">
+            <div class="form-section">
+                {% set data = resume_data.to_mongo().to_dict() if resume_data else {} %}
+                <h2>Enter Your Details</h2>
+
+                <!-- Full Name -->
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" name="name" id="name" value="{{ data.get('name', '') }}">
+                </div>
+
+                <!-- Contact Info -->
+                <div class="form-group">
+                    <label>Contact Info</label>
+                    <div class="contact-fields">
+                        <input type="text" name="phone" id="phone" placeholder="Phone"
+                               value="{{ data.contact.phone if data.contact and 'phone' in data.contact else '' }}">
+                        <input type="email" name="email" id="email" placeholder="Email"
+                               value="{{ data.contact.email if data.contact and 'email' in data.contact else '' }}">
+                        <input type="url" name="linkedin" id="linkedin" placeholder="LinkedIn URL"
+                               value="{{ data.contact.linkedin if data.contact and 'linkedin' in data.contact else '' }}">
+                        <input type="url" name="github" id="github" placeholder="GitHub URL"
+                               value="{{ data.contact.github if data.contact and 'github' in data.contact else '' }}">
+                        <input type="url" name="leetcode" id="leetcode" placeholder="LeetCode URL"
+                               value="{{ data.contact.leetcode if data.contact and 'leetcode' in data.contact else '' }}">
+                    </div>
+                </div>
+
+                <!-- Objective -->
+                <div class="form-group" id="objective-group">
+                    <label for="objective">Objective</label>
+                    <textarea name="objective" id="objective">{{ data.get('objective', '') }}</textarea>
+                </div>
+
+                <!-- Education -->
+                <div class="form-group" id="education-group">
+                    <label>Education</label>
+                    {% if data.education %}
+                        {% for edu in data.education %}
+                            <div class="education-item" id="education-item-{{ loop.index0 }}">
+                                <input type="text" name="degree[]" id="degree-{{ loop.index0 }}" placeholder="Degree"
+                                       value="{{ edu.degree if 'degree' in edu else '' }}">
+                                <input type="text" name="university[]" id="university-{{ loop.index0 }}"
+                                       placeholder="University"
+                                       value="{{ edu.university if 'university' in edu else '' }}">
+                                <input type="text" name="location[]" id="location-{{ loop.index0 }}"
+                                       placeholder="Location" value="{{ edu.location if 'location' in edu else '' }}">
+                                <input type="text" name="from_date[]" id="from-{{ loop.index0 }}" placeholder="From"
+                                       value="{{ edu.start_year if 'start_year' in edu else '' }}">
+                                <input type="text" name="to_date[]" id="to-{{ loop.index0 }}" placeholder="To"
+                                       value="{{ edu.end_year if 'end_year' in edu else '' }}">
+                                <input type="text" name="cgpa[]" id="cgpa-{{ loop.index0 }}" placeholder="CGPA"
+                                       value="{{ edu.cgpa if 'cgpa' in edu else '' }}">
+                                <input type="text" name="grade[]" id="grade-{{ loop.index0 }}" placeholder="Grade"
+                                       value="{{ edu.grade if 'grade' in edu else '' }}">
+                                <button type="button" class="add-btn" onclick="addEducation()">+</button>
+                                {% if not loop.first %}
+                                    <button type="button" class="remove-btn"
+                                            onclick="removeEducation({{ loop.index0 }})">-
+                                    </button>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="education-item" id="education-item-0">
+                            <input type="text" name="degree[]" id="degree-0" placeholder="Degree" value="">
+                            <input type="text" name="university[]" id="university-0" placeholder="University" value="">
+                            <input type="text" name="location[]" id="location-0" placeholder="Location" value="">
+                            <input type="text" name="from_date[]" id="from-0" placeholder="From" value="">
+                            <input type="text" name="to_date[]" id="to-0" placeholder="To" value="">
+                            <input type="text" name="cgpa[]" id="cgpa-0" placeholder="CGPA" value="">
+                            <input type="text" name="grade[]" id="grade-0" placeholder="Grade" value="">
+                            <button type="button" class="add-btn" onclick="addEducation()">+</button>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Projects -->
+                <div class="form-group" id="projects-group">
+                    <label for="projects">Projects</label>
+                    {% if data.project %}
+                        {% for project in data.project %}
+                            <div class="project-item" id="project-item-{{ loop.index0 }}">
+                                <input type="text" name="title[]" id="project-title-{{ loop.index0 }}"
+                                       placeholder="Project Title"
+                                       value="{{ project.title if 'title' in project else '' }}">
+                                <input type="url" name="plink[]" id="project-link-{{ loop.index0 }}"
+                                       placeholder="GitHub Link"
+                                       value="{{ project.link if 'link' in project else '' }}">
+                                <textarea name="pdescription[]"
+                                          id="project-description-{{ loop.index0 }}">{{ project.description if 'description' in project else '' }}</textarea>
+                                <button type="button" class="add-btn" onclick="addProject()">+</button>
+                                {% if not loop.first %}
+                                    <button type="button" class="remove-btn" onclick="removeProject({{ loop.index0 }})">
+                                        -
+                                    </button>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="project-item" id="project-item-0">
+                            <input type="text" name="title[]" id="project-title-0" placeholder="Project Title" value="">
+                            <input type="url" name="plink[]" id="project-link-0" placeholder="GitHub Link" value="">
+                            <textarea name="pdescription[]" id="project-description-0"></textarea>
+                            <button type="button" class="add-btn" onclick="addProject()">+</button>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Experience -->
+                <div class="form-group" id="experience-group">
+                    <label>Experience</label>
+                    {% if data.experience %}
+                        {% for exp in data.experience %}
+                            <div class="experience-item" id="experience-item-{{ loop.index0 }}">
+                                <input type="text" name="jtitle[]" id="job-title-{{ loop.index0 }}"
+                                       placeholder="Job Title"
+                                       value="{{ exp.title if 'title' in exp else '' }}">
+                                <input type="text" name="company[]" id="company-{{ loop.index0 }}" placeholder="Company"
+                                       value="{{ exp.company if 'company' in exp else '' }}">
+                                <input type="text" name="jlocation[]" id="location-exp-{{ loop.index0 }}"
+                                       placeholder="Location" value="{{ exp.location if 'location' in exp else '' }}">
+                                <textarea name="jdescription[]" id="description-{{ loop.index0 }}"
+                                          placeholder="Description">
+                                    {%- if exp.description is iterable and exp.description is not string -%}
+                                        {{ exp.description|join('\n') }}
+                                    {%- else -%}
+                                        {{ exp.description if 'description' in exp else '' }}
+                                    {%- endif -%}
+                                </textarea>
+                                <button type="button" class="add-btn" onclick="addExperience()">+</button>
+                                {% if not loop.first %}
+                                    <button type="button" class="remove-btn"
+                                            onclick="removeExperience({{ loop.index0 }})">
+                                        -
+                                    </button>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="experience-item" id="experience-item-0">
+                            <input type="text" name="jtitle[]" id="job-title-0" placeholder="Job Title" value="">
+                            <input type="text" name="company[]" id="company-0" placeholder="Company" value="">
+                            <input type="text" name="jlocation[]" id="location-exp-0" placeholder="Location" value="">
+                            <textarea name="jdescription[]" id="description-0" placeholder="Description"></textarea>
+                            <button type="button" class="add-btn" onclick="addExperience()">+</button>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Skills -->
+                <div class="form-group" id="skills-group">
+                    <label>Computer Skills & Certifications</label>
+                    <textarea name="skill" id="skills">{{ data.get('skills', '') }}</textarea>
+                </div>
+
+                <!-- Activities -->
+                <div class="form-group" id="activities-group">
+                    <label>Service & Activities</label>
+                    {% if data.activities %}
+                        {% for act in data.activities %}
+                            <div class="activity-item" id="activity-item-{{ loop.index0 }}">
+                                <input type="text" name="atitle[]" id="activity-{{ loop.index0 }}"
+                                       placeholder="Activity"
+                                       value="{{ act.title if 'title' in act else '' }}">
+                                <input type="text" name="duration[]" id="duration-{{ loop.index0 }}"
+                                       placeholder="Duration"
+                                       value="{{ act.duration if 'duration' in act else '' }}">
+                                <button type="button" class="add-btn" onclick="addActivity()">+</button>
+                                {% if not loop.first %}
+                                    <button type="button" class="remove-btn"
+                                            onclick="removeActivity({{ loop.index0 }})">-
+                                    </button>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="activity-item" id="activity-item-0">
+                            <input type="text" name="atitle[]" id="activity-0" placeholder="Activity" value="">
+                            <input type="text" name="duration[]" id="duration-0" placeholder="Duration" value="">
+                            <button type="button" class="add-btn" onclick="addActivity()">+</button>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="save-btn">Save</button>
+                <div id="save-message" style="color: #38a169; font-size: 16px; margin-top: 10px;"></div>
+            </div>
+            
+            <div class="pdf button">
+                <button type="button" class="top-right-btn" onclick="generateTextBasedPDF()">Save as PDF</button>
+            </div>
+            
+            <div class="preview-section">
+                <div class="resume" id="resume-body">
+                    <h1 id="preview-name"></h1>
+                    <div class="contact-info" id="preview-contact"></div>
+                    <div class="resume-section" id="objective-section">
+                        <h2>Objective:</h2>
+                        <p id="preview-objective"></p>
+                    </div>
+                    <div class="resume-section" id="education-section">
+                        <h2>Education:</h2>
+                        <div id="preview-education"></div>
+                    </div>
+                    <div class="resume-section" id="projects-section">
+                        <h2>Projects:</h2>
+                        <div id="preview-projects"></div>
+                    </div>
+                    <div class="resume-section" id="experience-section">
+                        <h2>Experience:</h2>
+                        <div id="preview-experience"></div>
+                    </div>
+                    <div class="resume-section" id="skills-section">
+                        <h2>Computer Skills & Certifications:</h2>
+                        <div class="skills-certifications">
+                            <div class="skills" id="preview-skills"></div>
+                            <div class="certifications" id="preview-certifications"></div>
+                        </div>
+                    </div>
+                    <div class="resume-section" id="activities-section">
+                        <h2>Service & Activities:</h2>
+                        <div class="service-activities" id="preview-activities"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div id="save-message" style=" font-size: 16px; margin-top: 10px;"></div>
+
+    <script>
+        document.getElementById('freshman_form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const msgDiv = document.getElementById('save-message');
+
+            fetch('/freshmandb', {
+                method: 'POST',
+                body: formData
+            })
+                .then(async response => {
+                    const data = await response.json();
+                    msgDiv.textContent = data.message;
+
+                    if (response.ok) {
+                        msgDiv.style.color = 'green';
+                    } else {
+                        msgDiv.style.color = 'red';
+                    }
+                })
+                .catch(error => {
+                    msgDiv.textContent = "Network error"
+                    msgDiv.style.color = 'red';
+                });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputs = {
+                name: document.getElementById('name'),
+                phone: document.getElementById('phone'),
+                email: document.getElementById('email'),
+                linkedin: document.getElementById('linkedin'),
+                github: document.getElementById('github'),
+                leetcode: document.getElementById('leetcode'),
+                objective: document.getElementById('objective'),
+                skills: document.getElementById('skills')
+            };
+
+            const previews = {
+                name: document.getElementById('preview-name'),
+                contact: document.getElementById('preview-contact'),
+                objective: document.getElementById('preview-objective'),
+                education: document.getElementById('preview-education'),
+                projects: document.getElementById('preview-projects'),
+                experience: document.getElementById('preview-experience'),
+                skills: document.getElementById('preview-skills'),
+                certifications: document.getElementById('preview-certifications'),
+                activities: document.getElementById('preview-activities'),
+                objectiveSection: document.getElementById('objective-section'),
+                educationSection: document.getElementById('education-section'),
+                projectsSection: document.getElementById('projects-section'),
+                experienceSection: document.getElementById('experience-section'),
+                skillsSection: document.getElementById('skills-section'),
+                activitiesSection: document.getElementById('activities-section')
+            };
+
+            let educationCount = 2;
+            let experienceCount = 1;
+            let activityCount = 1;
+            let projectCount = 1;
+
+            function updatePreview() {
+                // Update Name
+                previews.name.textContent = inputs.name.value || '';
+
+                // Update Contact Info
+                previews.contact.textContent = [
+                    inputs.phone.value || '',
+                    inputs.email.value || '',
+                    inputs.linkedin.value ? 'LinkedIn' : '',
+                    inputs.github.value ? 'GitHub' : '',
+                    inputs.leetcode.value ? 'LeetCode' : ''
+                ].filter(Boolean).join(' ● ');
+                let contactHtml = previews.contact.textContent;
+                if (inputs.linkedin.value) {
+                    contactHtml = contactHtml.replace('LinkedIn', `<a href="${inputs.linkedin.value}" target="_blank">LinkedIn</a>`);
+                }
+                if (inputs.github.value) {
+                    contactHtml = contactHtml.replace('GitHub', `<a href="${inputs.github.value}" target="_blank">GitHub</a>`);
+                }
+                if (inputs.leetcode.value) {
+                    contactHtml = contactHtml.replace('LeetCode', `<a href="${inputs.leetcode.value}" target="_blank">LeetCode</a>`);
+                }
+                previews.contact.innerHTML = contactHtml;
+
+                // Update Objective
+                previews.objective.innerHTML = inputs.objective.value ? inputs.objective.value.replace(/\*(.*?)\*/g, '<span class="job-title">$1</span>') : '';
+                previews.objectiveSection.style.display = inputs.objective.value ? 'block' : 'none';
+
+                // Update Education
+                let educationContent = '';
+                for (let i = 0; i < educationCount; i++) {
+                    const degree = document.getElementById(`degree-${i}`)?.value || '';
+                    const university = document.getElementById(`university-${i}`)?.value || '';
+                    const location = document.getElementById(`location-${i}`)?.value || '';
+                    const from = document.getElementById(`from-${i}`)?.value || '';
+                    const to = document.getElementById(`to-${i}`)?.value || '';
+                    const cgpa = document.getElementById(`cgpa-${i}`)?.value || '';
+                    const grade = document.getElementById(`grade-${i}`)?.value || '';
+                    if (degree || university || location || from || to || cgpa || grade) {
+                        educationContent += `
+                            <div class="education-item">
+                                <div><span class="institution">${degree}</span></div>
+                                <div>${university ? university + ' – ' : ''}<span class="location">${location}</span></div>
+                                <div>${from ? from + ', ' : ''}${to}${cgpa ? ', GPA: ' + cgpa : ''}${grade ? ', Grade: ' + grade : ''}</div>
+                            </div>
+                        `;
+                    }
+                }
+                previews.education.innerHTML = educationContent;
+                previews.educationSection.style.display = educationContent ? 'block' : 'none';
+
+                // Update Projects
+                let projectsContent = '';
+                for (let i = 0; i < projectCount; i++) {
+                    const title = document.getElementById(`project-title-${i}`)?.value || '';
+                    const link = document.getElementById(`project-link-${i}`)?.value || '';
+                    const description = document.getElementById(`project-description-${i}`)?.value || '';
+                    if (title || link || description) {
+                        projectsContent += `
+                            <div class="project-item">
+                                <div><span class="project-name">${title}</span>${link ? ' | <a href="' + link + '" target="_blank">(GitHub)</a>' : ''}</div>
+                                <ul>
+                                    ${description.split('\n').filter(line => line.trim()).map(line => `<li>${line.replace(/^-/, '').trim()}</li>`).join('')}
+                                </ul>
+                            </div>
+                        `;
+                    }
+                }
+                previews.projects.innerHTML = projectsContent;
+                previews.projectsSection.style.display = projectsContent ? 'block' : 'none';
+
+                // Update Experience
+                let experienceContent = '';
+                for (let i = 0; i < experienceCount; i++) {
+                    const jobTitle = document.getElementById(`job-title-${i}`)?.value || '';
+                    const company = document.getElementById(`company-${i}`)?.value || '';
+                    const location = document.getElementById(`location-exp-${i}`)?.value || '';
+                    const description = document.getElementById(`description-${i}`)?.value || '';
+                    if (jobTitle || company || location || description) {
+                        experienceContent += `
+                            <div class="experience-item">
+                                <div><span class="company">${jobTitle}</span> | <span class="location">${company} – ${location}</span></div>
+                                <ul>
+                                    ${description.split('\n').filter(line => line.trim()).map(line => `<li>${line.trim()}</li>`).join('')}
+                                </ul>
+                            </div>
+                        `;
+                    }
+                }
+                previews.experience.innerHTML = experienceContent;
+                previews.experienceSection.style.display = experienceContent ? 'block' : 'none';
+
+                // Update Skills & Certifications
+                const skillsLines = inputs.skills.value.split('\n').filter(line => line.trim());
+                let skillsContent = '';
+                let certificationsContent = '';
+                skillsLines.forEach(line => {
+                    if (line.toLowerCase().includes('certification')) {
+                        certificationsContent += `<div>${line}</div>`;
+                    } else {
+                        skillsContent += `<div>${line}</div>`;
+                    }
+                });
+                previews.skills.innerHTML = skillsContent || '<div></div>';
+                previews.certifications.innerHTML = certificationsContent || '<div></div>';
+                previews.skillsSection.style.display = skillsContent || certificationsContent ? 'block' : 'none';
+
+                // Update Activities
+                let activityContent = '';
+                for (let i = 0; i < activityCount; i++) {
+                    const activity = document.getElementById(`activity-${i}`)?.value || '';
+                    const duration = document.getElementById(`duration-${i}`)?.value || '';
+                    if (activity || duration) {
+                        activityContent += `
+                            <div class="activity">
+                                <div class="activity-title">${activity}</div>
+                                <div class="activity-date">${duration}</div>
+                            </div>
+                        `;
+                    }
+                }
+                previews.activities.innerHTML = activityContent;
+                previews.activitiesSection.style.display = activityContent ? 'block' : 'none';
+            }
+
+            // Initial event listeners
+            inputs.name.addEventListener('input', updatePreview);
+            inputs.phone.addEventListener('input', updatePreview);
+            inputs.email.addEventListener('input', updatePreview);
+            inputs.linkedin.addEventListener('input', updatePreview);
+            inputs.github.addEventListener('input', updatePreview);
+            inputs.leetcode.addEventListener('input', updatePreview);
+            inputs.objective.addEventListener('input', updatePreview);
+            inputs.skills.addEventListener('input', updatePreview);
+
+            // Education functions
+            window.addEducation = function () {
+                const item = document.createElement('div');
+                item.className = 'education-item';
+                item.id = `education-item-${educationCount}`;
+                item.innerHTML = `
+                    <input type="text" name="degree[]" id="degree-${educationCount}" placeholder="Degree">
+                    <input type="text" name="university" id="university-${educationCount}" placeholder="University">
+                    <input type="text" name="location[]" id="location-${educationCount}" placeholder="Location">
+                    <input type="text" name="from_date[]" id="from-${educationCount}" placeholder="From (e.g., June 20xx)">
+                    <input type="text" name="to_date[]" id="to-${educationCount}" placeholder="To (e.g., May 20xx)">
+                    <input type="text" name="cgpa[]" id="cgpa-${educationCount}" placeholder="CGPA (e.g., 3.0)">
+                    <input type="text" name="grade[]" id="grade-${educationCount}" placeholder="Grade (e.g., A)">
+                    <button type="button" class="add-btn" onclick="addEducation()">+</button>
+                    <button type="button" class="remove-btn" onclick="removeEducation(${educationCount})">-</button>
+                `;
+                document.getElementById('education-group').appendChild(item);
+                if (educationCount > 0) {
+                    document.querySelector(`#education-item-${educationCount - 1} .remove-btn`).style.display = 'inline';
+                }
+                educationCount++;
+                setupEducationListeners();
+            };
+
+            window.removeEducation = function (index) {
+                const item = document.getElementById(`education-item-${index}`);
+                if (item) item.remove();
+                if (educationCount > 1) educationCount--;
+                if (educationCount > 0) {
+                    document.querySelector(`#education-item-${educationCount - 1} .remove-btn`).style.display = 'none';
+                }
+                setupEducationListeners();
+            };
+
+            // Experience functions
+            window.addExperience = function () {
+                const item = document.createElement('div');
+                item.className = 'experience-item';
+                item.id = `experience-item-${experienceCount}`;
+                item.innerHTML = `
+                    <input type="text" name="jtitle[]" id="job-title-${experienceCount}" placeholder="Job Title">
+                    <input type="text" name="company[]" id="company-${experienceCount}" placeholder="Company">
+                    <input type="text" name="jlocation[]" id="location-exp-${experienceCount}" placeholder="Location">
+                    <textarea name="jdescription[]" id="description-${experienceCount}" placeholder="Description"></textarea>
+                    <button type="button" class="add-btn" onclick="addExperience()">+</button>
+                    <button type="button" class="remove-btn" onclick="removeExperience(${experienceCount})">-</button>
+                `;
+                document.getElementById('experience-group').appendChild(item);
+                if (experienceCount > 0) {
+                    document.querySelector(`#experience-item-${experienceCount - 1} .remove-btn`).style.display = 'inline';
+                }
+                experienceCount++;
+                setupExperienceListeners();
+            };
+
+            window.removeExperience = function (index) {
+                const item = document.getElementById(`experience-item-${index}`);
+                if (item) item.remove();
+                if (experienceCount > 1) experienceCount--;
+                if (experienceCount > 0) {
+                    document.querySelector(`#experience-item-${experienceCount - 1} .remove-btn`).style.display = 'none';
+                }
+                setupExperienceListeners();
+            };
+
+            // Activity functions
+            window.addActivity = function () {
+                const item = document.createElement('div');
+                item.className = 'activity-item';
+                item.id = `activity-item-${activityCount}`;
+                item.innerHTML = `
+                    <input type="text" name="atitle[]" id="activity-${activityCount}" placeholder="Activity">
+                    <input type="text" name="duration[]" id="duration-${activityCount}" placeholder="Duration (e.g., Fall 20xx - Present)">
+                    <button type="button" class="add-btn" onclick="addActivity()">+</button>
+                    <button type="button" class="remove-btn" onclick="removeActivity(${activityCount})">-</button>
+                `;
+                document.getElementById('activities-group').appendChild(item);
+                if (activityCount > 0) {
+                    document.querySelector(`#activity-item-${activityCount - 1} .remove-btn`).style.display = 'inline';
+                }
+                activityCount++;
+                setupActivityListeners();
+            };
+
+            window.removeActivity = function (index) {
+                const item = document.getElementById(`activity-item-${index}`);
+                if (item) item.remove();
+                if (activityCount > 1) activityCount--;
+                if (activityCount > 0) {
+                    document.querySelector(`#activity-item-${activityCount - 1} .remove-btn`).style.display = 'none';
+                }
+                setupActivityListeners();
+            };
+
+            // Project functions
+            window.addProject = function () {
+                const item = document.createElement('div');
+                item.className = 'project-item';
+                item.id = `project-item-${projectCount}`;
+                item.innerHTML = `
+                    <input type="text" name="title[]" id="project-title-${projectCount}" placeholder="Project Title">
+                    <input type="url" name="plink[]" id="project-link-${projectCount}" placeholder="GitHub Link (optional)">
+                    <textarea  name="pdescription" id="project-description-${projectCount}" placeholder="Description (use bullets with '-')"></textarea>
+                    <button type="button" class="add-btn" onclick="addProject()">+</button>
+                    <button type="button" class="remove-btn" onclick="removeProject(${projectCount})">-</button>
+                `;
+                document.getElementById('projects-group').appendChild(item);
+                if (projectCount > 0) {
+                    document.querySelector(`#project-item-${projectCount - 1} .remove-btn`).style.display = 'inline';
+                }
+                projectCount++;
+                setupProjectListeners();
+            };
+
+            window.removeProject = function (index) {
+                const item = document.getElementById(`project-item-${index}`);
+                if (item) item.remove();
+                if (projectCount > 1) projectCount--;
+                if (projectCount > 0) {
+                    document.querySelector(`#project-item-${projectCount - 1} .remove-btn`).style.display = 'none';
+                }
+                setupProjectListeners();
+            };
+
+            // Setup listeners for dynamic fields
+            function setupEducationListeners() {
+                for (let i = 0; i < educationCount; i++) {
+                    ['degree', 'university', 'location', 'from', 'to', 'cgpa', 'grade'].forEach(field => {
+                        const input = document.getElementById(`${field}-${i}`);
+                        if (input && !input.dataset.listener) {
+                            input.addEventListener('input', updatePreview);
+                            input.dataset.listener = 'true';
+                        }
+                    });
+                }
+            }
+
+            function setupExperienceListeners() {
+                for (let i = 0; i < experienceCount; i++) {
+                    ['job-title', 'company', 'location-exp', 'description'].forEach(field => {
+                        const input = document.getElementById(`${field}-${i}`);
+                        if (input && !input.dataset.listener) {
+                            input.addEventListener('input', updatePreview);
+                            input.dataset.listener = 'true';
+                        }
+                    });
+                }
+            }
+
+            function setupActivityListeners() {
+                for (let i = 0; i < activityCount; i++) {
+                    ['activity', 'duration'].forEach(field => {
+                        const input = document.getElementById(`${field}-${i}`);
+                        if (input && !input.dataset.listener) {
+                            input.addEventListener('input', updatePreview);
+                            input.dataset.listener = 'true';
+                        }
+                    });
+                }
+            }
+
+            function setupProjectListeners() {
+                for (let i = 0; i < projectCount; i++) {
+                    ['project-title', 'project-link', 'project-description'].forEach(field => {
+                        const input = document.getElementById(`${field}-${i}`);
+                        if (input && !input.dataset.listener) {
+                            input.addEventListener('input', updatePreview);
+                            input.dataset.listener = 'true';
+                        }
+                    });
+                }
+            }
+
+            // Initial setup
+            setupEducationListeners();
+            setupExperienceListeners();
+            setupActivityListeners();
+            setupProjectListeners();
+            updatePreview();
+        });
+    </script>
+
+    <!-- Text-Based PDF Generation Script -->
+    <script>
+        async function generateTextBasedPDF() {
+            const button = document.querySelector('.top-right-btn');
+            const originalText = button.textContent;
+
+            try {
+                button.disabled = true;
+                button.textContent = 'Generating PDF...';
+
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+
+                // Get form data
+                const name = document.getElementById('name').value || '';
+                const phone = document.getElementById('phone').value || '';
+                const email = document.getElementById('email').value || '';
+                const linkedin = document.getElementById('linkedin').value || '';
+                const github = document.getElementById('github').value || '';
+                const leetcode = document.getElementById('leetcode').value || '';
+                const objective = document.getElementById('objective').value || '';
+                const skills = document.getElementById('skills').value || '';
+
+                // PDF margins and settings
+                const pageWidth = 210;
+                const pageHeight = 297;
+                const margin = 20;
+                const contentWidth = pageWidth - (margin * 2);
+                let currentY = margin;
+
+                // Helper functions
+                function checkPageBreak(requiredSpace) {
+                    if (currentY + requiredSpace > pageHeight - margin) {
+                        pdf.addPage();
+                        currentY = margin;
+                    }
+                }
+
+                function addSection(title, content, startY) {
+                    let y = startY + 10;
+                    
+                    // Section title
+                    pdf.setFontSize(16);
+                    pdf.setFont('helvetica', 'bold');
+                    pdf.text(title, margin, y);
+                    
+                    // Underline
+                    pdf.setLineWidth(0.5);
+                    pdf.line(margin, y + 2, pageWidth - margin, y + 2);
+                    
+                    y += 8;
+                    
+                    // Section content
+                    pdf.setFontSize(11);
+                    pdf.setFont('helvetica', 'normal');
+                    
+                    if (Array.isArray(content)) {
+                        content.forEach(item => {
+                            const lines = pdf.splitTextToSize(item, contentWidth);
+                            lines.forEach(line => {
+                                if (y > pageHeight - margin) {
+                                    pdf.addPage();
+                                    y = margin;
+                                }
+                                pdf.text(line, margin, y);
+                                y += 5;
+                            });
+                            y += 3; // Extra space between items
+                        });
+                    } else if (content) {
+                        const lines = pdf.splitTextToSize(content, contentWidth);
+                        lines.forEach(line => {
+                            if (y > pageHeight - margin) {
+                                pdf.addPage();
+                                y = margin;
+                            }
+                            pdf.text(line, margin, y);
+                            y += 5;
+                        });
+                    }
+                    
+                    return y + 5;
+                }
+
+                // Header - Name
+                checkPageBreak(30);
+                pdf.setFontSize(20);
+                pdf.setFont('helvetica', 'bold');
+                pdf.text(name, pageWidth / 2, currentY, { align: 'center' });
+                
+                // Underline name
+                pdf.setLineWidth(1);
+                pdf.line(margin, currentY + 3, pageWidth - margin, currentY + 3);
+                currentY += 15;
+
+                // Contact Information
+                if (phone || email || linkedin || github || leetcode) {
+                    pdf.setFontSize(11);
+                    pdf.setFont('helvetica', 'normal');
+                    
+                    let contactInfo = [];
+                    if (phone) contactInfo.push(phone);
+                    if (email) contactInfo.push(email);
+                    if (linkedin) contactInfo.push('LinkedIn');
+                    if (github) contactInfo.push('GitHub');
+                    if (leetcode) contactInfo.push('LeetCode');
+                    
+                    const contactText = contactInfo.join(' • ');
+                    pdf.text(contactText, pageWidth / 2, currentY, { align: 'center' });
+                    
+                    // Add clickable links
+                    if (linkedin) {
+                        const linkedinIndex = contactInfo.indexOf('LinkedIn');
+                        pdf.setTextColor(0, 0, 255);
+                        pdf.text('LinkedIn', pageWidth / 2 - 20, currentY);
+                        pdf.link(pageWidth / 2 - 25, currentY - 3, 20, 5, { url: linkedin });
+                        pdf.setTextColor(0, 0, 0);
+                    }
+                    
+                    if (github) {
+                        const githubIndex = contactInfo.indexOf('GitHub');
+                        pdf.setTextColor(0, 0, 255);
+                        pdf.text('GitHub', pageWidth / 2, currentY);
+                        pdf.link(pageWidth / 2 - 5, currentY - 3, 20, 5, { url: github });
+                        pdf.setTextColor(0, 0, 0);
+                    }
+                    
+                    if (leetcode) {
+                        const leetcodeIndex = contactInfo.indexOf('LeetCode');
+                        pdf.setTextColor(0, 0, 255);
+                        pdf.text('LeetCode', pageWidth / 2 + 20, currentY);
+                        pdf.link(pageWidth / 2 + 15, currentY - 3, 20, 5, { url: leetcode });
+                        pdf.setTextColor(0, 0, 0);
+                    }
+                    
+                    currentY += 15;
+                }
+
+                // Objective
+                if (objective) {
+                    checkPageBreak(30);
+                    currentY = addSection('Objective:', objective, currentY);
+                }
+
+                // Education
+                const educationData = [];
+                let eduIndex = 0;
+                while (document.getElementById(`degree-${eduIndex}`)) {
+                    const degree = document.getElementById(`degree-${eduIndex}`).value;
+                    const university = document.getElementById(`university-${eduIndex}`).value;
+                    const location = document.getElementById(`location-${eduIndex}`).value;
+                    const from = document.getElementById(`from-${eduIndex}`).value;
+                    const to = document.getElementById(`to-${eduIndex}`).value;
+                    const cgpa = document.getElementById(`cgpa-${eduIndex}`).value;
+                    const grade = document.getElementById(`grade-${eduIndex}`).value;
+                    
+                    if (degree || university) {
+                        let eduText = '';
+                        if (degree) eduText += `${degree}\n`;
+                        if (university) eduText += `${university}`;
+                        if (location) eduText += ` – ${location}`;
+                        eduText += '\n';
+                        if (from || to) eduText += `${from}${from && to ? ', ' : ''}${to}`;
+                        if (cgpa) eduText += `, GPA: ${cgpa}`;
+                        if (grade) eduText += `, Grade: ${grade}`;
+                        eduText += '\n';
+                        
+                        educationData.push(eduText);
+                    }
+                    eduIndex++;
+                }
+                
+                if (educationData.length > 0) {
+                    checkPageBreak(40);
+                    currentY = addSection('Education:', educationData, currentY);
+                }
+
+                // Projects
+                const projectsData = [];
+                let projectIndex = 0;
+                while (document.getElementById(`project-title-${projectIndex}`)) {
+                    const title = document.getElementById(`project-title-${projectIndex}`).value;
+                    const link = document.getElementById(`project-link-${projectIndex}`).value;
+                    const description = document.getElementById(`project-description-${projectIndex}`).value;
+                    
+                    if (title || description) {
+                        let projectText = '';
+                        if (title) projectText += `${title}`;
+                        if (link) projectText += ` | (GitHub)`;
+                        projectText += '\n';
+                        
+                        if (description) {
+                            const points = description.split('\n').filter(line => line.trim());
+                            points.forEach(point => {
+                                projectText += `• ${point.replace(/^-/, '').trim()}\n`;
+                            });
+                        }
+                        
+                        projectsData.push(projectText);
+                    }
+                    projectIndex++;
+                }
+                
+                if (projectsData.length > 0) {
+                    checkPageBreak(40);
+                    currentY = addSection('Projects:', projectsData, currentY);
+                }
+
+                // Experience
+                const experienceData = [];
+                let expIndex = 0;
+                while (document.getElementById(`job-title-${expIndex}`)) {
+                    const jobTitle = document.getElementById(`job-title-${expIndex}`).value;
+                    const company = document.getElementById(`company-${expIndex}`).value;
+                    const location = document.getElementById(`location-exp-${expIndex}`).value;
+                    const description = document.getElementById(`description-${expIndex}`).value;
+                    
+                    if (jobTitle || company || description) {
+                        let expText = '';
+                        if (jobTitle) expText += `${jobTitle}`;
+                        if (company) expText += ` | ${company}`;
+                        if (location) expText += ` – ${location}`;
+                        expText += '\n';
+                        
+                        if (description) {
+                            const points = description.split('\n').filter(line => line.trim());
+                            points.forEach(point => {
+                                expText += `• ${point.trim()}\n`;
+                            });
+                        }
+                        
+                        experienceData.push(expText);
+                    }
+                    expIndex++;
+                }
+                
+                if (experienceData.length > 0) {
+                    checkPageBreak(40);
+                    currentY = addSection('Experience:', experienceData, currentY);
+                }
+
+                // Skills & Certifications
+                if (skills) {
+                    checkPageBreak(30);
+                    currentY = addSection('Computer Skills & Certifications:', skills, currentY);
+                }
+
+                // Activities
+                const activitiesData = [];
+                let actIndex = 0;
+                while (document.getElementById(`activity-${actIndex}`)) {
+                    const activity = document.getElementById(`activity-${actIndex}`).value;
+                    const duration = document.getElementById(`duration-${actIndex}`).value;
+                    
+                    if (activity) {
+                        activitiesData.push(`${activity}${duration ? ' – ' + duration : ''}`);
+                    }
+                    actIndex++;
+                }
+                
+                if (activitiesData.length > 0) {
+                    checkPageBreak(30);
+                    currentY = addSection('Service & Activities:', activitiesData, currentY);
+                }
+
+                // Save the PDF
+                const fileName = `${name.replace(/[^a-zA-Z0-9]/g, '_')}_Resume.pdf`;
+                pdf.save(fileName);
+
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+                alert('Failed to generate PDF. Please try again.');
+            } finally {
+                button.disabled = false;
+                button.textContent = originalText;
+            }
+        }
+    </script>
+</div>
+</html>

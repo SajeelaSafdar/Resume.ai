@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume.ai - User Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #ffffff;
+            color: #2d3748;
+            padding: 18px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo img {
+            width: 36px;
+            height: 36px;
+        }
+
+        .logo h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2d3748;
+            letter-spacing: -0.5px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 28px;
+            align-items: center;
+        }
+
+        nav ul li a {
+            color: #4a5568;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            font-size: 15px;
+        }
+
+        nav ul li a:hover {
+            color: #38a169;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+            margin-left: 20px;
+        }
+
+        .auth-btn {
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .logout-btn {
+            background-color: #38a169;
+            color: white;
+            border: 1px solid #38a169;
+        }
+
+        .logout-btn:hover {
+            background-color: #2f855a;
+            border-color: #2f855a;
+        }
+
+        /* Dashboard Section */
+        .dashboard-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f0fff4, #c6f6d5);
+            min-height: calc(100vh - 160px);
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .dashboard-content {
+            width: 100%;
+            text-align: center;
+        }
+
+        .welcome-message {
+            font-size: 32px;
+            color: #1a202c;
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .welcome-message span {
+            color: #38a169;
+        }
+
+        .dashboard-description {
+            font-size: 18px;
+            color: #4a5568;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+
+        /* Button Styles */
+        .options-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            margin-bottom: 60px;
+        }
+
+        .simple-btn {
+            padding: 12px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            border: 1px solid transparent;
+        }
+
+        .create-resume {
+            background-color: #38a169;
+            color: white;
+        }
+
+        .create-resume:hover {
+            background-color: #2f855a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(56, 161, 105, 0.3);
+        }
+
+        .find-jobs {
+            background-color: white;
+            color: #38a169;
+            border: 1px solid #38a169;
+        }
+
+        .find-jobs:hover {
+            background-color: #f0fff4;
+            color: #2f855a;
+            border-color: #2f855a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(56, 161, 105, 0.2);
+        }
+
+        /* Past Resumes Section */
+        .past-resumes {
+            background-color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .past-resumes h2 {
+            font-size: 28px;
+            color: #1a202c;
+            margin-bottom: 40px;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .past-resumes h2::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #38a169, #68d391);
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .resumes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .resume-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border: 1px solid #edf2f7;
+            transition: all 0.3s;
+            text-align: left;
+        }
+
+        .resume-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+            border-color: #c6f6d5;
+        }
+
+        .resume-card svg {
+            width: 100%;
+            height: 400px;
+            display: block;
+            object-fit: contain;
+            transform: scale(1.15);
+            transform-origin: center;
+        }
+
+        .resume-info {
+            padding: 20px;
+        }
+
+        .resume-info h3 {
+            font-size: 18px;
+            color: #1a202c;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .resume-info p {
+            font-size: 14px;
+            color: #4a5568;
+            margin-bottom: 5px;
+        }
+
+        .resume-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .action-btn {
+            padding: 8px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            flex: 1;
+            text-align: center;
+            max-width: 100px; /* Ensure button doesn't stretch too wide */
+        }
+
+        .edit-btn {
+            background-color: white;
+            color: #38a169;
+            border: 1px solid #38a169;
+        }
+
+        .edit-btn:hover {
+            background-color: #f0fff4;
+            color: #2f855a;
+            border-color: #2f855a;
+        }
+
+        .no-resumes {
+            font-size: 18px;
+            color: #4a5568;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #1a202c;
+            color: white;
+            padding: 60px 0 15px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, #38a169, #68d391);
+            bottom: 0;
+            left: 0;
+            border-radius: 2px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 14px;
+        }
+
+        .footer-column ul li a {
+            color: #a0aec0;
+            text-decoration: none;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #a0aec0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+<!-- Header -->
+<header>
+    <div class="container header-container">
+        <div class="logo">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzM4YTE2OSIgZD0iTTE5LDNIMThWMUgxNlYzSDhWMUg2VjNINVMzLjksMyAzLDMuOSAzLDVWMTlDMywyMC4xLDMuOSwyMSw1LDIxSDE5QzIwLjEsMjEsMjEsMjAuMSwyMSwxOVY1QzIxLDMuOSwyMC4xLDMsMTksM00xOSwxOUg1VjhIMTlWMTlNNywxMEgxMlYxNEg3VjEwTTE0LDEwSDE3VjE0SDE0VjEwTTcsMTZIMTJWMThIN1YxNk0xNCwxNkgxN1YxOEgxNFYxNiIvPjwvc3ZnPg=="
+                 alt="Resume Icon">
+            <h1>Resume.ai</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/dashboard">Home</a></li>
+                <li><a href="/templates">Templates</a></li>
+                <li>
+                    <div class="auth-buttons">
+                        <a href="/logout" class="auth-btn logout-btn">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<!-- Dashboard Section -->
+<section class="dashboard-section">
+    <div class="container">
+        <div class="dashboard-content">
+            <h2 class="welcome-message">Welcome, <span>{{ user_name }}</span></h2>
+            <p class="dashboard-description">Your journey to landing your dream job starts here. Build a professional
+                resume or explore job opportunities tailored to your skills.</p>
+            <div class="options-buttons">
+                <a href="/templates" class="simple-btn create-resume">Build Resume</a>
+                <a href="/findJob" class="simple-btn find-jobs">Find Your Job</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Past Resumes Section -->
+<section class="past-resumes">
+    <div class="container">
+        <h2>Your Past Resumes</h2>
+        <div id="resumes-grid" class="resumes-grid">
+            <!-- Resumes will be dynamically inserted here by JavaScript -->
+        </div>
+        <p id="no-resumes-message" class="no-resumes" style="display: none;">
+            You haven't built any resumes yet! Click "Build Resume" to get started!
+        </p>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Resume.ai</h3>
+                <p style="color: #a0aec0; line-height: 1.7; margin-top: 15px;">The professional resume builder
+                    trusted by millions to land their dream jobs.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Product</h3>
+                <ul>
+                    <li><a href="#">Templates</a></li>
+                    <li><a href="#">Examples</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="#">Resume Tips</a></li>
+                    <li><a href="#">Career Advice</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2023 Resume.ai Resume Builder. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+<script>
+
+
+    // Template 1 (Hire A. Freshman) rendering function
+    function renderTemplate1(resume) {
+        const data = resume;
+        return `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 8.5in; margin: 0 auto; padding: 0.6in; color: #333; font-size: 14px; background: #fff;">
+            <h1 style="font-size: 28px; margin-bottom: 12px; text-align: center; border-bottom: 2px solid #000; padding-bottom: 12px;">${data['name']}</h1>
+            <div style="text-align: center; margin-bottom: 24px; font-size: 16px;">
+                ${data.contact1.phone} ● ${data.contact1.email}
+            </div>
+            <h2 style="font-size: 20px; border-bottom: 1px solid #000; padding-bottom: 4px; margin-bottom: 12px; margin-top: 18px;">Objective:</h2>
+            <p>${data['objective']}</p>
+            <h2 style="font-size: 20px; border-bottom: 1px solid #000; padding-bottom: 4px; margin-bottom: 12px; margin-top: 18px;">Education:</h2>
+            ${data['education'].map(edu => `
+                <div style="margin-bottom: 18px;">
+                    <div><span style="font-weight: bold;">${edu['degree']}</span></div>
+                    <div>${edu['university']} – <span style="font-style: italic;">${edu['location']}</span></div>
+                    <div>${edu['start_year']}</div>
+                </div>
+            `).join('')}
+            <h2 style="font-size: 20px; border-bottom: 1px solid #000; padding-bottom: 4px; margin-bottom: 12px; margin-top: 18px;">Projects:</h2>
+            ${data['project'].map(project => `
+                <div style="margin-bottom: 18px;">
+                    <div><span style="font-weight: bold;">${project['title']}</span> | <span style="font-style: italic;">${project['link']}</span></div>
+                    <ul style="margin-top: 6px; padding-left: 24px;">
+                        ${Array.isArray(project['description'])
+            ? project['description'].map(detail => `<li>${detail}</li>`).join('')
+            : `<li>${project['description']}</li>`}
+                    </ul>
+                </div>
+            `).join('')}
+            <h2 style="font-size: 20px; border-bottom: 1px solid #000; padding-bottom: 4px; margin-bottom: 12px; margin-top: 18px;">Experience:</h2>
+            ${data['experience'].map(exp => `
+                <div style="margin-bottom: 18px;">
+                    <div><span style="font-weight: bold;">${exp['title']}</span> | <span style="font-style: italic;">${exp['company']} – ${exp['location']}</span></div>
+                    <ul style="margin-top: 6px; padding-left: 24px;">
+                        ${Array.isArray(exp['description'])
+            ? exp['description'].map(detail => `<li>${detail}</li>`).join('')
+            : `<li>${exp['description']}</li>`}
+                    </ul>
+                </div>
+            `).join('')}
+            <h2 style="font-size: 20px; border-bottom: 1px solid #000; padding-bottom: 4px; margin-bottom: 12px; margin-top: 18px;">Skills:</h2>
+            <div>${Array.isArray(data['skills']) ? data['skills'].join(', ') : data['skills']}</div>
+            <h2 style="font-size: 20px; border-bottom: 1px solid #000; padding-bottom: 4px; margin-bottom: 12px; margin-top: 18px;">Activities:</h2>
+            ${data['activities'].map(activity => `
+                <div style="display: flex; margin-bottom: 6px;">
+                    <div style="width: 60%; font-weight: bold;">${activity['title']}</div>
+                    <div style="width: 40%; text-align: right;">${activity['duration']}</div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+    }
+
+
+    function renderTemplate2(resume) {
+        const data = resume;
+        return `
+        <div style="max-width: 750px; background: #fff; margin: 0 auto; box-shadow: 1px 1px 2px #DAD7D7; border-radius: 3px; padding: 48px; margin-top: 60px; font-family: 'Lato', sans-serif; font-weight: 400; color: #222; font-size: 14px; line-height: 30px;">
+            <div style="margin-bottom: 36px;">
+                <div style="font-size: 48px; text-transform: uppercase; margin-bottom: 6px;">
+                    <span style="font-weight: 700;">${data.name}</span>
+                </div>
+                <div style="margin-bottom: 24px;">
+                    <span style="color: #999; font-weight: 300;">Email: </span>
+                    <span>${data.email}</span>
+                    <span style="height: 12px; display: inline-block; border-left: 2px solid #999; margin: 0px 12px;"></span>
+                    <span style="color: #999; font-weight: 300;">Phone: </span>
+                    <span>${data.phone}</span>
+                </div>
+                <div>
+                    <span style="font-weight: bold; display: inline-block; margin-right: 12px; text-decoration: underline;">${data.job}</span>
+                    <span>${data.jdescription}</span>
+                </div>
+            </div>
+            <div style="line-height: 24px;">
+                <div style="margin-bottom: 48px;">
+                    <div style="letter-spacing: 2px; color: #54AFE4; font-weight: bold; margin-bottom: 12px; text-transform: uppercase;">Experience</div>
+                    ${data.experience.map(exp => `
+                        <div style="margin-bottom: 48px;">
+                            <div style="vertical-align: top; display: inline-block; width: 60%;">
+                                <div style="font-weight: bold;">${exp.company}</div>
+                                <div>${exp.location}</div>
+                                <div>${exp.from_date} - ${exp.to_date || ''}</div>
+                            </div>
+                            <div style="vertical-align: top; display: inline-block; text-align: right; width: 39%;">
+                                <div style="font-weight: bold;">${exp.title}</div>
+                                <div>
+                                    ${Array.isArray(exp.description)
+            ? exp.description.map(line => `<div>${line}</div>`).join('')
+            : exp.description}
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div style="margin-bottom: 48px;">
+                    <div style="letter-spacing: 2px; color: #54AFE4; font-weight: bold; margin-bottom: 12px; text-transform: uppercase;">Education</div>
+                    ${data.education.map(edu => `
+                        <div style="margin-bottom: 48px;">
+                            <div style="vertical-align: top; display: inline-block; width: 60%;">
+                                <div style="font-weight: bold;">${edu.university}</div>
+                                <div>${edu.location}</div>
+                                <div>${edu.start_year} - ${edu.end_year || ''}</div>
+                            </div>
+                            <div style="vertical-align: top; display: inline-block; text-align: right; width: 39%;">
+                                <div style="font-weight: bold;">${edu.degree}</div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div style="margin-bottom: 48px;">
+                    <div style="letter-spacing: 2px; color: #54AFE4; font-weight: bold; margin-bottom: 12px; text-transform: uppercase;">Projects</div>
+                    ${(data.projects || []).map(project => `
+                        <div style="margin-bottom: 48px;">
+                            <div style="font-weight: bold;">${project.title}</div>
+                            <div>
+                                ${Array.isArray(project.description)
+            ? project.description.map(line => `<div>${line}</div>`).join('')
+            : project.description}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div style="margin-bottom: 48px;">
+                    <div style="letter-spacing: 2px; color: #54AFE4; font-weight: bold; margin-bottom: 12px;">Skills</div>
+                    ${(data.skill || []).map(skill => `
+                        <div style="margin-bottom: 12px;">
+                            <div style="vertical-align: top; display: inline-block; width: 60%;"><div style="font-weight: bold;">${skill.name}</div></div>
+                            <div style="vertical-align: top; display: inline-block; text-align: right; width: 39%;">
+                                ${Array(skill.level).fill('<span style="display: inline-block; width: 24px; height: 24px; background: #79A9CE; border-radius: 24px; margin-right: 4px;"></span>').join('')}
+                                ${Array(5 - skill.level).fill('<span style="display: inline-block; width: 24px; height: 24px; background: #C3DEF3; border-radius: 24px; margin-right: 4px;"></span>').join('')}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div style="margin-bottom: 48px;">
+                    <div style="letter-spacing: 2px; color: #54AFE4; font-weight: bold; margin-bottom: 12px;">Interests</div>
+                    <div>${(data.interest || []).join(', ')}</div>
+                </div>
+            </div>
+        </div>
+    `;
+    }
+
+    function renderTemplate3(resume) {
+        const data = resume;
+        return `
+        <div style="width: 8.5in; margin: 0 auto; padding: 0.6in; box-sizing: border-box; font-family: Arial, sans-serif; line-height: 1.6; color: #333; font-size: 14px; background: #fff;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 36px;">
+                <div style="font-size: 28px; font-weight: bold; margin-bottom: 6px;">${data.prof || 'PROFESSIONAL'}</div>
+                <div style="text-align: right;">
+                    <div style="font-size: 38px; font-weight: bold; text-transform: uppercase;">${data.fname}</div>
+                    <div style="font-size: 38px; font-weight: bold; text-transform: uppercase;">${data.lname}</div>
+                </div>
+            </div>
+            <div style="margin-bottom: 36px;">
+                <div style="font-weight: bold; font-size: 20px; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 4px; margin-bottom: 12px;">CONTACT</div>
+                <div style="display: flex; margin-bottom: 6px;"><div style="font-weight: bold; width: 96px;">EMAIL:</div><div>${data.email}</div></div>
+                <div style="display: flex; margin-bottom: 6px;"><div style="font-weight: bold; width: 96px;">ADDRESS:</div><div>${data.address}</div></div>
+                <div style="display: flex; margin-bottom: 6px;"><div style="font-weight: bold; width: 96px;">PHONE:</div><div>${data.phone}</div></div>
+                <div style="display: flex; margin-bottom: 6px;"><div style="font-weight: bold; width: 96px;">DOB:</div><div>${data.dob}</div></div>
+                <div style="display: flex; margin-bottom: 6px;"><div style="font-weight: bold; width: 96px;">NATIONALITY:</div><div>${data.nationality}</div></div>
+                <div style="display: flex; margin-bottom: 6px;"><div style="font-weight: bold; width: 96px;">WEBSITE:</div><div>${data.website}</div></div>
+            </div>
+            <div style="margin-bottom: 24px;">
+                <div style="font-weight: bold; font-size: 20px; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 4px; margin-bottom: 12px;">OBJECTIVE</div>
+                <p style="font-size: 16px; line-height: 1.6;">${data.objective}</p>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+                <div style="width: 48%;">
+                    <div style="margin-bottom: 24px;">
+                        <div style="font-weight: bold; font-size: 20px; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 4px; margin-bottom: 12px;">EXPERIENCE</div>
+                        ${data.experience.map(exp => `
+                            <div style="margin-bottom: 18px;">
+                                <div style="font-weight: bold; margin-bottom: 4px;">${exp.title}</div>
+                                <div style="font-style: italic; margin-bottom: 4px;">${exp.company}, ${exp.location}, ${exp.from_date}</div>
+                                <div style="font-size: 16px; margin-left: 24px;">
+                                    ${Array.isArray(exp.description)
+            ? exp.description.map(detail => `<div>- ${detail}</div>`).join('')
+            : `<div>- ${exp.description}</div>`}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                <div style="width: 48%;">
+                    <div style="margin-bottom: 24px;">
+                        <div style="font-weight: bold; font-size: 20px; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 4px; margin-bottom: 12px;">SKILLS</div>
+                        <ul style="list-style-type: none; padding-left: 0; margin-top: 6px;">
+                            ${data.skill.map(skill => `<li style="margin-bottom: 6px; font-size: 16px;">${skill}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div style="margin-bottom: 24px;">
+                        <div style="font-weight: bold; font-size: 20px; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 4px; margin-bottom: 12px;">LANGUAGES</div>
+                        <ul style="list-style-type: none; padding-left: 0; margin-top: 6px;">
+                            ${data.languages.map(lang => `<li style="margin-bottom: 6px; font-size: 16px;">${lang}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-bottom: 24px;">
+                <div style="font-weight: bold; font-size: 20px; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 4px; margin-bottom: 12px;">EDUCATION</div>
+                ${data.education.map(edu => `
+                    <div style="margin-bottom: 18px;">
+                        <div style="font-weight: bold; margin-bottom: 4px;">${edu.degree}</div>
+                        <div style="font-style: italic; margin-bottom: 4px;">${edu.university}, ${edu.location}, ${edu.start_year}</div>
+                        <div style="font-size: 16px; margin-left: 24px;">${edu.description || ''}</div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+    }
+
+
+    async function renderResumes() {
+        const resumesGrid = document.getElementById('resumes-grid');
+        const noResumesMessage = document.getElementById('no-resumes-message');
+
+        try {
+            let resumes = [];
+            try {
+                resumes = {{ resumes_data | tojson | safe }};
+            } catch (e) {
+                console.error("Failed to parse template data:", e);
+                const response = await fetch('/api/resumes');
+                resumes = await response.json();
+            }
+
+
+            console.log("Resumes data:", resumes); // Debug output
+
+
+            if (!resumes || resumes.length === 0) {
+                noResumesMessage.style.display = 'block';
+                return;
+            }
+
+            resumes.forEach((resume, index) => {
+                let templateHtml = '';
+                try {
+                    if (resume.template === 1) {
+                        templateHtml = renderTemplate1(resume.data);
+                    } else if (resume.template === 2) {
+                        templateHtml = renderTemplate2(resume.data);
+                    } else if (resume.template === 3) {
+                        templateHtml = renderTemplate3(resume.data);
+                    }
+                } catch (e) {
+                    console.error("Error rendering template:", e);
+                    templateHtml = `
+<div style="padding: 20px; color: red;">Error rendering resume: ${e.message}</div>
+`;
+                }
+
+                const card = document.createElement('div');
+                card.className = 'resume-card';
+                card.innerHTML = `
+<svg viewBox="0 0 900 1200" preserveAspectRatio="xMidYMid meet">
+    <foreignObject width="900" height="1200">
+        ${templateHtml}
+    </foreignObject>
+</svg>
+<div class="resume-info">
+    <h3>Resume ${index + 1}</h3>
+    <p>Template: ${resume.template}</p>
+    <p>Created: ${resume.created_at || 'Unknown date'}</p>
+    <div class="resume-actions">
+        <a href="/resume/edit/${resume.id}?template=${resume.template}" class="action-btn edit-btn">Edit</a>
+    </div>
+</div>
+`;
+                resumesGrid.appendChild(card);
+            });
+        } catch (error) {
+            console.error("Error loading resumes:", error);
+            noResumesMessage.textContent = "Error loading resumes. Please try again.";
+            noResumesMessage.style.display = 'block';
+        }
+
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', renderResumes);
+</script>
+</body>
+
+</html>

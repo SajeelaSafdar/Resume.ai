@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume.ai - Professional Resume Builder</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #ffffff;
+            color: #2d3748;
+            padding: 18px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo img {
+            width: 36px;
+            height: 36px;
+        }
+
+        .logo h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2d3748;
+            letter-spacing: -0.5px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 28px;
+            align-items: center;
+        }
+
+        nav ul li a {
+            color: #4a5568;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            font-size: 15px;
+        }
+
+        nav ul li a:hover {
+            color: #38a169;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+            margin-left: 20px;
+        }
+
+        .auth-btn {
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .login-btn {
+            background-color: transparent;
+            color: #38a169;
+            border: 1px solid #e2e8f0;
+        }
+
+        .login-btn:hover {
+            background-color: #f0fff4;
+            border-color: #c6f6d5;
+        }
+
+        .signup-btn {
+            background-color: #38a169;
+            color: white;
+            border: 1px solid #38a169;
+        }
+
+        .signup-btn:hover {
+            background-color: #2f855a;
+            border-color: #2f855a;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 100px 0;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #f0fff4, #c6f6d5);
+            color: #2d3748;
+            border-bottom: 1px solid #c6f6d5;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+            text-align: left;
+            padding-right: 40px;
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hero h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            color: #1a202c;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            color: #4a5568;
+            line-height: 1.7;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background-color: #38a169;
+            color: white;
+            box-shadow: 0 4px 6px rgba(56, 161, 105, 0.2);
+        }
+
+        .btn-primary:hover {
+            background-color: #2f855a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(56, 161, 105, 0.25);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: #38a169;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-secondary:hover {
+            background-color: #f0fff4;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            border-color: #c6f6d5;
+        }
+
+        /* Resume Sample */
+        .resume-sample {
+            width: 300px;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+        }
+
+        .resume-sample svg {
+            width: 100%;
+            height: 400px;
+            display: block;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 90px 0;
+            background-color: white;
+        }
+
+        .section-title {
+            font-size: 32px;
+            margin-bottom: 50px;
+            color: #1a202c;
+            position: relative;
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #38a169, #68d391);
+            bottom: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+            max-width: 700px; /* Center the two cards by limiting grid width */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .feature-card {
+            background-color: white;
+            padding: 35px 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s;
+            text-align: center;
+            border: 1px solid #edf2f7;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+            border-color: #c6f6d5;
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #f0fff4, #c6f6d5);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            color: #38a169;
+            font-size: 32px;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 16px;
+            color: #1a202c;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: #4a5568;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1a202c;
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, #38a169, #68d391);
+            bottom: 0;
+            left: 0;
+            border-radius: 2px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 14px;
+        }
+
+        .footer-column ul li a {
+            color: #a0aec0;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 15px;
+        }
+
+        .footer-column ul li a:hover {
+            color: #68d391;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #a0aec0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzM4YTE2OSIgZD0iTTE5LDNIMThWMUgxNlYzSDhWMUg2VjNINUMzLjksMyAzLDMuOSAzLDVWMTlDMywyMC4xLDMuOSwyMSw1LDIxSDE5QzIwLjEsMjEsMjEsMjAuMSwyMSwxOVY1QzIxLDMuOSwyMC4xLDMsMTksM00xOSwxOUg1VjhIMTlWMTlNNywxMEgxMlYxNEg3VjEwTTE0LDEwSDE3VjE0SDE0VjEwTTcsMTZIMTJWMThIN1YxNk0xNCwxNkgxN1YxOEgxNFYxNiIvPjwvc3ZnPg==" alt="Resume Icon">
+                <h1>Resume.ai</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/seetemplates">Templates</a></li>
+                    <li>
+                        <div class="auth-buttons">
+                            <a href="/signin" class="auth-btn login-btn">Login</a>
+                            <a href="/signup" class="auth-btn signup-btn">Sign Up</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section with Bentley Campbell Resume -->
+    <section class="hero">
+        <div class="container" style="display: flex; align-items: center;">
+            <div class="hero-content">
+                <h2>Craft Your Perfect Resume</h2>
+                <p>Create a professional, ATS-friendly resume in minutes with our intuitive builder and land interviews at top companies.</p>
+                <div class="cta-buttons">
+                    <a href="/signup" class="btn btn-primary">Get Started</a>
+                    <a href="/seetemplates" class="btn btn-secondary">View Templates</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="resume-sample">
+                    <svg viewBox="0 0 800 1100">
+                        <foreignObject width="800" height="1100">
+                            <div style="width: 8.5in; margin: 0 auto; padding: 0.5in; box-sizing: border-box; font-family: Arial, sans-serif; line-height: 1.4; color: #333; font-size: 12px; background: #fff;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 30px;">
+                                    <div style="font-size: 24px; font-weight: bold; margin-bottom: 5px;">ACCOUNTANT</div>
+                                    <div style="text-align: right;">
+                                        <div style="font-size: 32px; font-weight: bold; text-transform: uppercase;">BENTLEY</div>
+                                        <div style="font-size: 32px; font-weight: bold; text-transform: uppercase;">CAMPBELL</div>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 30px;">
+                                    <div style="font-weight: bold; font-size: 18px; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 3px; margin-bottom: 10px;">CONTACT</div>
+                                    <div style="display: flex; margin-bottom: 5px;">
+                                        <div style="font-weight: bold; width: 80px;">EMAIL:</div>
+                                        <div>bcampbell@gmail.com</div>
+                                    </div>
+                                    <div style="display: flex; margin-bottom: 5px;">
+                                        <div style="font-weight: bold; width: 80px;">ADDRESS:</div>
+                                        <div>12 Main Street, Washington DC 20225</div>
+                                    </div>
+                                    <div style="display: flex; margin-bottom: 5px;">
+                                        <div style="font-weight: bold; width: 80px;">PHONE:</div>
+                                        <div>(212) 555-1212</div>
+                                    </div>
+                                    <div style="display: flex; margin-bottom: 5px;">
+                                        <div style="font-weight: bold; width: 80px;">DOB:</div>
+                                        <div>Jun 23 1985</div>
+                                    </div>
+                                    <div style="display: flex; margin-bottom: 5px;">
+                                        <div style="font-weight: bold; width: 80px;">NATIONALITY:</div>
+                                        <div>American</div>
+                                    </div>
+                                    <div style="display: flex; margin-bottom: 5px;">
+                                        <div style="font-weight: bold; width: 80px;">WEBSITE:</div>
+                                        <div>www.bcampbell.com</div>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 20px;">
+                                    <div style="font-weight: bold; font-size: 18px; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 3px; margin-bottom: 10px;">OBJECTIVE</div>
+                                    <p style="font-size: 14px; line-height: 1.5;">
+                                        Certified public accountant with 6+ years of experience. Adapts seamlessly to constantly evolving accounting processes and new technologies. Detail-oriented, efficient and organized, with extensive experience in accounting systems. Specialized in financial planning and reporting.
+                                    </p>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <div style="width: 48%;">
+                                        <div style="margin-bottom: 20px;">
+                                            <div style="font-weight: bold; font-size: 18px; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 3px; margin-bottom: 10px;">EXPERIENCE</div>
+                                            <div style="margin-bottom: 15px;">
+                                                <div style="font-weight: bold; margin-bottom: 3px;">ACCOUNTING DIRECTOR</div>
+                                                <div style="font-style: italic; margin-bottom: 3px;">Apex Corporation, Washington DC, Feb 2018-Present</div>
+                                                <div style="font-size: 14px; margin-left: 20px;">
+                                                    <div>- Reported to and collaborated with the Chief Financial Officer (CFO) to evaluate and evolve organization's best practices.</div>
+                                                    <div>- Overseeing the accounting team and providing guidance and direction as needed.</div>
+                                                </div>
+                                            </div>
+                                            <div style="margin-bottom: 15px;">
+                                                <div style="font-weight: bold; margin-bottom: 3px;">STAFF ACCOUNTANT</div>
+                                                <div style="font-style: italic; margin-bottom: 3px;">Dobra Corporation, Washington DC, Jan 2013-Feb 2018</div>
+                                                <div style="font-size: 14px; margin-left: 20px;">
+                                                    <div>- Managing relationships with external auditors, tax professionals, and other financial service providers.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="width: 48%;">
+                                        <div style="margin-bottom: 20px;">
+                                            <div style="font-weight: bold; font-size: 18px; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 3px; margin-bottom: 10px;">SKILLS</div>
+                                            <ul style="list-style-type: none; padding-left: 0; margin-top: 5px;">
+                                                <li style="margin-bottom: 5px; font-size: 14px;">Business Strategies</li>
+                                                <li style="margin-bottom: 5px; font-size: 14px;">Budget management</li>
+                                                <li style="margin-bottom: 5px; font-size: 14px;">Event research and reporting</li>
+                                                <li style="margin-bottom: 5px; font-size: 14px;">Team building</li>
+                                                <li style="margin-bottom: 5px; font-size: 14px;">Time Management</li>
+                                            </ul>
+                                        </div>
+                                        <div style="margin-bottom: 20px;">
+                                            <div style="font-weight: bold; font-size: 18px; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 3px; margin-bottom: 10px;">LANGUAGES</div>
+                                            <ul style="list-style-type: none; padding-left: 0; margin-top: 5px;">
+                                                <li style="margin-bottom: 5px; font-size: 14px;">English - Native</li>
+                                                <li style="margin-bottom: 5px; font-size: 14px;">Italian - Advanced</li>
+                                                <li style="margin-bottom: 5px; font-size: 14px;">Spanish - Elementary</li>
+                                                <li style="margin-bottom: 5px; font-size: 14px;">German - Elementary</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 20px;">
+                                    <div style="font-weight: bold; font-size: 18px; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 3px; margin-bottom: 10px;">EDUCATION</div>
+                                    <div style="margin-bottom: 15px;">
+                                        <div style="font-weight: bold; margin-bottom: 3px;">ADVANCED FINANCIAL ACCOUNTING</div>
+                                        <div style="font-style: italic; margin-bottom: 3px;">Georgetown University, Washington DC, Jan 2020-Feb 2022</div>
+                                        <div style="font-size: 14px; margin-left: 20px;">
+                                            Principles and practices of auditing, including the role of the auditor, the audit process, and the detection and prevention of fraud.
+                                        </div>
+                                    </div>
+                                    <div style="margin-bottom: 15px;">
+                                        <div style="font-weight: bold; margin-bottom: 3px;">MANAGERIAL ACCOUNTING</div>
+                                        <div style="font-style: italic; margin-bottom: 3px;">Georgetown University, Washington DC, Jan 2020-Feb 2022</div>
+                                    </div>
+                                    <div style="margin-bottom: 15px;">
+                                        <div style="font-weight: bold; margin-bottom: 3px;">FINANCIAL ACCOUNTING</div>
+                                        <div style="font-style: italic; margin-bottom: 3px;">American University, Washington DC, Jan 2020-Feb 2022</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </foreignObject>
+                        <text x="10" y="50" font-family="Arial, sans-serif" font-size="14" fill="#333">Your browser does not support SVG foreignObject. Please use a modern browser to view this resume.</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Professional Resume Features</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🖌️</div>
+                    <h3>Easy Resume Creation</h3>
+                    <p>Build your resume effortlessly with our intuitive drag-and-drop interface and customizable templates.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Job Matching</h3>
+                    <p>Our AI matches your skills with relevant job openings and suggests optimizations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-column">
+                    <h3>Resume.ai</h3>
+                    <p style="color: #a0aec0; line-height: 1.7; margin-top: 15px;">The professional resume builder trusted by thousands to land their dream jobs.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Product</h3>
+                    <ul>
+                        <li><a href="#">Templates</a></li>
+                        <li><a href="#">Examples</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Resume Tips</a></li>
+                        <li><a href="#">Career Advice</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                © 2023 Resume.ai Resume Builder. All rights reserved.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
