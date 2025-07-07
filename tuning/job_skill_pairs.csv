@@ -1,0 +1,80 @@
+job_title,skills,label
+Backend Developer - Django,python django rest api,1
+Frontend Developer - ReactJS,javascript react html css,1
+Full Stack Developer - MERN,mongodb express react nodejs,1
+Mobile Developer - Flutter,flutter dart firebase,1
+Data Scientist,python pandas scikit-learn,1
+DevOps Engineer,docker kubernetes aws,1
+Software Engineer - NodeJs,nodejs express javascript,1
+Cloud Architect,aws azure terraform,1
+UI/UX Designer,figma adobe xd design thinking,1
+Business Analyst,sql powerbi excel,1
+React Native Developer,react-native javascript mobile,1
+Django Engineer,python django celery,1
+ML Engineer,python numpy machine-learning,1
+AWS Cloud Engineer,aws ec2 s3,1
+Kubernetes Specialist,kubernetes helm docker,1
+Java Developer,java spring hibernate,1
+iOS Developer,swift xcode cocoapods,1
+Android Developer,kotlin android studio,1
+Product Manager,agile jira stakeholder,1
+Security Analyst,cybersecurity risk-analysis,1
+Automation QA,selenium pytest testing,1
+Database Engineer,sql postgresql mysql,1
+AI Engineer,deep-learning pytorch tensorflow,1
+Backend Developer - Flask,python flask api,1
+Frontend Developer - VueJS,vuejs javascript html,1
+ETL Developer,etl airflow sql,1
+System Administrator,linux bash networking,1
+Embedded Systems Engineer,c++ embedded microcontrollers,1
+Data Engineer,spark hadoop bigdata,1
+Graphic Designer,illustrator photoshop figma,1
+Support Engineer,troubleshooting tech-support,1
+Game Developer,unity c# game-dev,1
+Cloud Security Engineer,cloud security iam,1
+Rust Developer,rust systems programming,1
+Go Developer,go api backend,1
+Penetration Tester,ethical-hacking burpsuite,1
+CRM Expert,hubspot salesforce crm,1
+Technical Writer,documentation api-writing,1
+BI Developer,tableau powerbi sql,1
+Blockchain Developer,solidity ethereum smart-contracts,1
+Backend Developer - Django,figma design css,0
+Frontend Developer - ReactJS,python django flask,0
+Data Scientist,reactjs vuejs html,0
+Mobile Developer - Flutter,sql postgresql mysql,0
+DevOps Engineer,figma photoshop xd,0
+Software Engineer - NodeJs,pytorch keras tensorflow,0
+Cloud Architect,spring hibernate java,0
+UI/UX Designer,linux shell bash,0
+Business Analyst,docker kubernetes ansible,0
+React Native Developer,rust go cpp,0
+Django Engineer,vuejs svelte html,0
+ML Engineer,android kotlin gradle,0
+AWS Cloud Engineer,java swing spring,0
+Kubernetes Specialist,excel powerpoint word,0
+Java Developer,flask django pyramid,0
+iOS Developer,sql mongo postgresql,0
+Android Developer,javascript figma css,0
+Product Manager,c++ embedded arduino,0
+Security Analyst,vuejs react angular,0
+Automation QA,pytorch fastapi huggingface,0
+Database Engineer,adobe illustrator xd,0
+AI Engineer,excel word ppt,0
+Backend Developer - Flask,ios android mobile,0
+Frontend Developer - VueJS,postgres docker aws,0
+ETL Developer,camera lighting video,0
+System Administrator,css react html,0
+Embedded Systems Engineer,figma photoshop xd,0
+Data Engineer,jira confluence trello,0
+Graphic Designer,kubernetes docker terraform,0
+Support Engineer,sql data studio,0
+Game Developer,pandas matplotlib seaborn,0
+Cloud Security Engineer,figma adobe illustrator,0
+Rust Developer,excel powerpoint outlook,0
+Go Developer,javascript typescript tailwind,0
+Penetration Tester,figma html css,0
+CRM Expert,docker flask mysql,0
+Technical Writer,react angular javascript,0
+BI Developer,pytorch keras tensorflow,0
+Blockchain Developer,excel word sql,0
